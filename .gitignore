@@ -1,0 +1,7 @@
+# local tooling
+.claude/
+.impeccable/shots/
+.impeccable/live/
+node_modules/
+*.log
+**/.impeccable/hook.cache.json

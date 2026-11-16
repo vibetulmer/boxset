@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boxset</title>
+<meta name="description" content="Boxset, dein persönliches Serienregal: gesehene Serien, Staffeln und Folgen, Zeit vor dem Bildschirm und deine eigene Tier-Liste.">
+<meta name="theme-color" content="#1c2c78">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preload" href="fonts/sofia-xc-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/sofia-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<!--
+THESIS: A lifetime of watched TV as a box-set shelf, drawn flat and graphic. Refuses the streaming-clone poster grid on black with a red accent: every season is a spine, unwatched seasons are empty outlined cases, the gaps are the data.
+OWN-WORLD: Blu-ray cobalt drenches the surface (sunk header, flat two-tone boards), flat spines coloured from each show's poster, outlined empty cases, yellow reserved for "watched", white stickers for ratings and tiers, face-out covers in a Blu-ray case frame. Sofia Sans Extra Condensed for spines, figures and headings; Sofia Sans for reading. No faked bevels, grain or sheen.
+STORY: The owner searches a show, puts it on the shelf in one tap, refines by season or episode, sets rewatches, rates it. The shelf grows; the totals tell them how much of their life went into it.
+FIRST VIEWPORT: Lifetime sentence and spec strip on top, full-width shelf of box sets below; nav as divider tabs (top on desktop, bottom on phone), search always one tap away.
+FORM: candidate 3 of 7 (DVD box-set shelf), seed key 4247fb57.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-shelf" viewBox="0 0 24 24"><path d="M2.5 20.5h19"/><rect x="4.5" y="6" width="3.5" height="14.5" rx=".6"/><rect x="9" y="3.5" width="3.5" height="17" rx=".6"/><path d="m14.6 8.3 3.3-.9 3.4 12.6-3.3.9z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6.5 3.75h11v16.5L12 16.25l-5.5 4z"/></symbol>
+    <symbol id="i-bookmark-on" viewBox="0 0 24 24"><path d="M6.5 3.75h11v16.5L12 16.25l-5.5 4z" fill="currentColor"/></symbol>
+    <symbol id="i-tiers" viewBox="0 0 24 24"><path d="M3.5 5.5h17M3.5 12h12M3.5 18.5h7"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.75"/><path d="M12 7.25V12l3.25 2"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="M3.5 4.5h17v4h-17z"/><path d="M5 8.5v11h14v-11M10 12.5h4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M4.5 19.5h15"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15.5v-11M7 9l5-5 5 5M4.5 19.5h15"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.5v4h-4"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l.8 12.5h9.4L17.5 7"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M13.5 4.5h6v6M19.5 4.5 11 13M17 14v5.5H4.5V7H10"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#view">Zum Inhalt</a>
+
+<header class="topbar">
+  <a class="brand" href="#/regal" aria-label="Boxset, zum Regal">
+    <span class="brand__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="brand__name">Boxset</span>
+  </a>
+  <nav class="tabs" aria-label="Hauptnavigation">
+    <a class="tab" href="#/regal" data-tab="regal"><svg class="icon" aria-hidden="true"><use href="#i-shelf"/></svg><span>Regal</span></a>
+    <a class="tab" href="#/suche" data-tab="suche"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><span>Suchen</span></a>
+    <a class="tab" href="#/watchlist" data-tab="watchlist"><svg class="icon" aria-hidden="true"><use href="#i-bookmark"/></svg><span>Watchlist</span></a>
+    <a class="tab" href="#/ranking" data-tab="ranking"><svg class="icon" aria-hidden="true"><use href="#i-tiers"/></svg><span>Ranking</span></a>
+    <a class="tab" href="#/statistik" data-tab="statistik"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg><span>Statistik</span></a>
+  </nav>
+  <a class="topbar__data" href="#/daten" data-tab="daten" aria-label="Daten und Backup"><svg class="icon" aria-hidden="true"><use href="#i-box"/></svg><span>Daten</span></a>
+</header>
+
+<main id="view" tabindex="-1"></main>
+
+<footer class="credit">
+  Seriendaten von <a href="https://www.tvmaze.com" target="_blank" rel="noopener">TVmaze</a>, lizenziert unter
+  <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de" target="_blank" rel="noopener">CC BY-SA 4.0</a>.
+  Deine Einträge bleiben auf diesem Gerät.
+</footer>
+
+<div class="toasts" role="status" aria-live="polite"></div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

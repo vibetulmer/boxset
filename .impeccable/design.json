@@ -1,0 +1,556 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-16T13:16:54.926Z",
+  "title": "Design System: Boxset",
+  "extensions": {
+    "colorMeta": {
+      "cobalt-ground": {
+        "role": "primary",
+        "displayName": "Blu-ray Cobalt",
+        "canonical": "oklch(0.3 0.13 266)",
+        "tonalRamp": [
+          "oklch(0.15 0.13 266)",
+          "oklch(0.26 0.13 266)",
+          "oklch(0.37 0.13 266)",
+          "oklch(0.48 0.13 266)",
+          "oklch(0.59 0.13 266)",
+          "oklch(0.7 0.13 266)",
+          "oklch(0.82 0.13 266)",
+          "oklch(0.95 0.13 266)"
+        ]
+      },
+      "cobalt-raised": {
+        "role": "primary",
+        "displayName": "Raised Cobalt",
+        "canonical": "oklch(0.355 0.135 266)",
+        "tonalRamp": [
+          "oklch(0.15 0.135 266)",
+          "oklch(0.26 0.135 266)",
+          "oklch(0.37 0.135 266)",
+          "oklch(0.48 0.135 266)",
+          "oklch(0.59 0.135 266)",
+          "oklch(0.7 0.135 266)",
+          "oklch(0.82 0.135 266)",
+          "oklch(0.95 0.135 266)"
+        ]
+      },
+      "cobalt-sunk": {
+        "role": "primary",
+        "displayName": "Sunk Cobalt",
+        "canonical": "oklch(0.245 0.115 267)",
+        "tonalRamp": [
+          "oklch(0.15 0.115 267)",
+          "oklch(0.26 0.115 267)",
+          "oklch(0.37 0.115 267)",
+          "oklch(0.48 0.115 267)",
+          "oklch(0.59 0.115 267)",
+          "oklch(0.7 0.115 267)",
+          "oklch(0.82 0.115 267)",
+          "oklch(0.95 0.115 267)"
+        ]
+      },
+      "board-face": {
+        "role": "primary",
+        "displayName": "Board Face",
+        "canonical": "oklch(0.47 0.15 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.15 262)",
+          "oklch(0.26 0.15 262)",
+          "oklch(0.37 0.15 262)",
+          "oklch(0.48 0.15 262)",
+          "oklch(0.59 0.15 262)",
+          "oklch(0.7 0.15 262)",
+          "oklch(0.82 0.15 262)",
+          "oklch(0.95 0.15 262)"
+        ]
+      },
+      "board-top": {
+        "role": "primary",
+        "displayName": "Board Top",
+        "canonical": "oklch(0.66 0.13 255)",
+        "tonalRamp": [
+          "oklch(0.15 0.13 255)",
+          "oklch(0.26 0.13 255)",
+          "oklch(0.37 0.13 255)",
+          "oklch(0.48 0.13 255)",
+          "oklch(0.59 0.13 255)",
+          "oklch(0.7 0.13 255)",
+          "oklch(0.82 0.13 255)",
+          "oklch(0.95 0.13 255)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "canonical": "oklch(0.47 0.12 264)",
+        "tonalRamp": [
+          "oklch(0.15 0.12 264)",
+          "oklch(0.26 0.12 264)",
+          "oklch(0.37 0.12 264)",
+          "oklch(0.48 0.12 264)",
+          "oklch(0.59 0.12 264)",
+          "oklch(0.7 0.12 264)",
+          "oklch(0.82 0.12 264)",
+          "oklch(0.95 0.12 264)"
+        ]
+      },
+      "line-soft": {
+        "role": "neutral",
+        "displayName": "Line Soft",
+        "canonical": "oklch(0.39 0.12 265)",
+        "tonalRamp": [
+          "oklch(0.15 0.12 265)",
+          "oklch(0.26 0.12 265)",
+          "oklch(0.37 0.12 265)",
+          "oklch(0.48 0.12 265)",
+          "oklch(0.59 0.12 265)",
+          "oklch(0.7 0.12 265)",
+          "oklch(0.82 0.12 265)",
+          "oklch(0.95 0.12 265)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.975 0.01 260)",
+        "tonalRamp": [
+          "oklch(0.15 0.01 260)",
+          "oklch(0.26 0.01 260)",
+          "oklch(0.37 0.01 260)",
+          "oklch(0.48 0.01 260)",
+          "oklch(0.59 0.01 260)",
+          "oklch(0.7 0.01 260)",
+          "oklch(0.82 0.01 260)",
+          "oklch(0.95 0.01 260)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "oklch(0.88 0.04 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.04 262)",
+          "oklch(0.26 0.04 262)",
+          "oklch(0.37 0.04 262)",
+          "oklch(0.48 0.04 262)",
+          "oklch(0.59 0.04 262)",
+          "oklch(0.7 0.04 262)",
+          "oklch(0.82 0.04 262)",
+          "oklch(0.95 0.04 262)"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink 3",
+        "canonical": "oklch(0.77 0.065 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.065 262)",
+          "oklch(0.26 0.065 262)",
+          "oklch(0.37 0.065 262)",
+          "oklch(0.48 0.065 262)",
+          "oklch(0.59 0.065 262)",
+          "oklch(0.7 0.065 262)",
+          "oklch(0.82 0.065 262)",
+          "oklch(0.95 0.065 262)"
+        ]
+      },
+      "paper": {
+        "role": "tertiary",
+        "displayName": "Sticker White",
+        "canonical": "oklch(0.975 0.01 260)",
+        "tonalRamp": [
+          "oklch(0.15 0.01 260)",
+          "oklch(0.26 0.01 260)",
+          "oklch(0.37 0.01 260)",
+          "oklch(0.48 0.01 260)",
+          "oklch(0.59 0.01 260)",
+          "oklch(0.7 0.01 260)",
+          "oklch(0.82 0.01 260)",
+          "oklch(0.95 0.01 260)"
+        ]
+      },
+      "paper-ink": {
+        "role": "tertiary",
+        "displayName": "Sticker Ink",
+        "canonical": "oklch(0.28 0.13 266)",
+        "tonalRamp": [
+          "oklch(0.15 0.13 266)",
+          "oklch(0.26 0.13 266)",
+          "oklch(0.37 0.13 266)",
+          "oklch(0.48 0.13 266)",
+          "oklch(0.59 0.13 266)",
+          "oklch(0.7 0.13 266)",
+          "oklch(0.82 0.13 266)",
+          "oklch(0.95 0.13 266)"
+        ]
+      },
+      "watched": {
+        "role": "secondary",
+        "displayName": "Watched Yellow",
+        "canonical": "oklch(0.87 0.165 96)",
+        "tonalRamp": [
+          "oklch(0.15 0.165 96)",
+          "oklch(0.26 0.165 96)",
+          "oklch(0.37 0.165 96)",
+          "oklch(0.48 0.165 96)",
+          "oklch(0.59 0.165 96)",
+          "oklch(0.7 0.165 96)",
+          "oklch(0.82 0.165 96)",
+          "oklch(0.95 0.165 96)"
+        ]
+      },
+      "watched-hi": {
+        "role": "secondary",
+        "displayName": "Watched Yellow Hover",
+        "canonical": "oklch(0.92 0.15 98)",
+        "tonalRamp": [
+          "oklch(0.15 0.15 98)",
+          "oklch(0.26 0.15 98)",
+          "oklch(0.37 0.15 98)",
+          "oklch(0.48 0.15 98)",
+          "oklch(0.59 0.15 98)",
+          "oklch(0.7 0.15 98)",
+          "oklch(0.82 0.15 98)",
+          "oklch(0.95 0.15 98)"
+        ]
+      },
+      "watched-ink": {
+        "role": "secondary",
+        "displayName": "Watched Ink",
+        "canonical": "oklch(0.27 0.06 75)",
+        "tonalRamp": [
+          "oklch(0.15 0.06 75)",
+          "oklch(0.26 0.06 75)",
+          "oklch(0.37 0.06 75)",
+          "oklch(0.48 0.06 75)",
+          "oklch(0.59 0.06 75)",
+          "oklch(0.7 0.06 75)",
+          "oklch(0.82 0.06 75)",
+          "oklch(0.95 0.06 75)"
+        ]
+      },
+      "danger": {
+        "role": "neutral",
+        "displayName": "Danger",
+        "canonical": "oklch(0.78 0.14 30)",
+        "tonalRamp": [
+          "oklch(0.15 0.14 30)",
+          "oklch(0.26 0.14 30)",
+          "oklch(0.37 0.14 30)",
+          "oklch(0.48 0.14 30)",
+          "oklch(0.59 0.14 30)",
+          "oklch(0.7 0.14 30)",
+          "oklch(0.82 0.14 30)",
+          "oklch(0.95 0.14 30)"
+        ]
+      },
+      "case-line": {
+        "role": "neutral",
+        "displayName": "Case Line",
+        "canonical": "oklch(1 0 0 / 0.32)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.26 0 0)",
+          "oklch(0.37 0 0)",
+          "oklch(0.48 0 0)",
+          "oklch(0.59 0 0)",
+          "oklch(0.7 0 0)",
+          "oklch(0.82 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      },
+      "tier-a": {
+        "role": "tertiary",
+        "displayName": "Tier A",
+        "canonical": "oklch(0.9 0.045 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.045 262)",
+          "oklch(0.26 0.045 262)",
+          "oklch(0.37 0.045 262)",
+          "oklch(0.48 0.045 262)",
+          "oklch(0.59 0.045 262)",
+          "oklch(0.7 0.045 262)",
+          "oklch(0.82 0.045 262)",
+          "oklch(0.95 0.045 262)"
+        ]
+      },
+      "tier-b": {
+        "role": "tertiary",
+        "displayName": "Tier B",
+        "canonical": "oklch(0.82 0.07 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.07 262)",
+          "oklch(0.26 0.07 262)",
+          "oklch(0.37 0.07 262)",
+          "oklch(0.48 0.07 262)",
+          "oklch(0.59 0.07 262)",
+          "oklch(0.7 0.07 262)",
+          "oklch(0.82 0.07 262)",
+          "oklch(0.95 0.07 262)"
+        ]
+      },
+      "tier-c": {
+        "role": "tertiary",
+        "displayName": "Tier C",
+        "canonical": "oklch(0.74 0.09 263)",
+        "tonalRamp": [
+          "oklch(0.15 0.09 263)",
+          "oklch(0.26 0.09 263)",
+          "oklch(0.37 0.09 263)",
+          "oklch(0.48 0.09 263)",
+          "oklch(0.59 0.09 263)",
+          "oklch(0.7 0.09 263)",
+          "oklch(0.82 0.09 263)",
+          "oklch(0.95 0.09 263)"
+        ]
+      },
+      "tier-d": {
+        "role": "tertiary",
+        "displayName": "Tier D",
+        "canonical": "oklch(0.66 0.11 264)",
+        "tonalRamp": [
+          "oklch(0.15 0.11 264)",
+          "oklch(0.26 0.11 264)",
+          "oklch(0.37 0.11 264)",
+          "oklch(0.48 0.11 264)",
+          "oklch(0.59 0.11 264)",
+          "oklch(0.7 0.11 264)",
+          "oklch(0.82 0.11 264)",
+          "oklch(0.95 0.11 264)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page titles: show name, Ranking, Statistik, Daten. Uppercase, balanced."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The lifetime sentence on the shelf and the stats head; ink-2 with the number in ink."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section headings, search result names, season names. Uppercase."
+      },
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "Spec-strip values, facts, stepper values, brand name. Tabular figures."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reading text in Sofia Sans."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "Intro paragraph under a page title, ink-2, max 60ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Tabs, segmented options, badges, buttons (800). Uppercase."
+      },
+      "label-sm": {
+        "displayName": "Small label",
+        "purpose": "Names the figure or control directly beneath it; never a decorative tag above a heading."
+      },
+      "spine": {
+        "displayName": "Spine",
+        "purpose": "Vertical show names on spines, read bottom to top."
+      }
+    },
+    "shadows": [
+      {
+        "name": "toast-float",
+        "value": "0 12px 32px -8px oklch(0.15 0.1 266 / 0.7)",
+        "purpose": "Only the toast, the one element floating above the page."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The single easing curve for transitions and the authored moment."
+      },
+      {
+        "name": "boxset-transition",
+        "value": "view-transition-name: boxset; group 480ms ease-out; root cross-fade 220ms",
+        "purpose": "The one authored motion: the clicked box set slides from the shelf into the detail page."
+      },
+      {
+        "name": "state-feedback",
+        "value": "140ms to 320ms",
+        "purpose": "Hover lifts (box set 8px, cover 5px, large spine 6px), presses, page fade-in."
+      },
+      {
+        "name": "spine-arrive",
+        "value": "560ms, translateY(-26px) to none",
+        "purpose": "Newly added spines drop onto the shelf."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "1ms",
+        "purpose": "All animation and transition collapses under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "760px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Watch Button",
+      "kind": "button",
+      "refersTo": "button-watch",
+      "description": "Marks something watched; the only yellow button.",
+      "html": "<button class=\"ds-btn-watch\"><svg viewBox=\"0 0 24 24\"><path d=\"m5 12.5 4.5 4.5L19 7.5\"/></svg>Ganze Serie gesehen</button>",
+      "css": ".ds-btn-watch{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:10px 18px 9px;border:0;border-radius:7px;font:800 1.0625rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;transition:transform 140ms cubic-bezier(0.16,1,0.3,1),background-color 140ms;background:var(--watched,oklch(0.87 0.165 96));color:var(--watched-ink,oklch(0.27 0.06 75))}.ds-btn-watch svg{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}.ds-btn-watch:hover{background:var(--watched-hi,oklch(0.92 0.15 98))}.ds-btn-watch:active{transform:translateY(1px) scale(.985)}.ds-btn-watch:focus-visible{outline:2px solid var(--paper,oklch(0.975 0.01 260));outline-offset:3px}"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Sticker-white primary action.",
+      "html": "<button class=\"ds-btn-primary\">Serie suchen</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:10px 18px 9px;border:0;border-radius:7px;font:800 1.0625rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;transition:transform 140ms cubic-bezier(0.16,1,0.3,1),background-color 140ms;background:var(--paper,oklch(0.975 0.01 260));color:var(--paper-ink,oklch(0.28 0.13 266))}.ds-btn-primary:hover{background:oklch(1 0 0)}.ds-btn-primary:active{transform:translateY(1px) scale(.985)}.ds-btn-primary:focus-visible{outline:2px solid var(--paper,oklch(0.975 0.01 260));outline-offset:3px}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action: inset Line ring on cobalt.",
+      "html": "<button class=\"ds-btn-outline\">Datei wählen</button>",
+      "css": ".ds-btn-outline{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:10px 18px 9px;border:0;border-radius:7px;font:800 1.0625rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;transition:transform 140ms cubic-bezier(0.16,1,0.3,1),background-color 140ms;background:transparent;color:var(--ink,oklch(0.975 0.01 260));box-shadow:inset 0 0 0 1.5px var(--line,oklch(0.47 0.12 264))}.ds-btn-outline:hover{background:var(--ground-raised,oklch(0.355 0.135 266));box-shadow:inset 0 0 0 1.5px var(--ink-3,oklch(0.77 0.065 262))}.ds-btn-outline:active{transform:translateY(1px) scale(.985)}.ds-btn-outline:focus-visible{outline:2px solid var(--paper,oklch(0.975 0.01 260));outline-offset:3px}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "Large sunk search field with a white inset focus ring.",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m15.5 15.5 5 5\"/></svg><input placeholder=\"Serie suchen\"></label>",
+      "css": ".ds-search{position:relative;display:block;max-width:760px}.ds-search svg{position:absolute;left:18px;top:50%;translate:0 -50%;width:24px;height:24px;fill:none;stroke:var(--ink-3,oklch(0.77 0.065 262));stroke-width:1.75;stroke-linecap:round}.ds-search input{width:100%;height:64px;padding:0 20px 0 54px;border:0;border-radius:10px;background:var(--ground-sunk,oklch(0.245 0.115 267));color:var(--ink,oklch(0.975 0.01 260));font:700 1.5rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;letter-spacing:.01em;transition:box-shadow 160ms}.ds-search input::placeholder{color:var(--ink-3,oklch(0.77 0.065 262))}.ds-search input:focus{outline:none;box-shadow:inset 0 0 0 2px var(--paper,oklch(0.975 0.01 260))}"
+    },
+    {
+      "name": "Divider Tabs",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "Header divider tabs; the active one joins the cobalt page.",
+      "html": "<nav class=\"ds-tabs\"><a class=\"ds-tab\" aria-current=\"page\" href=\"#\">Regal</a><a class=\"ds-tab\" href=\"#\">Suchen</a><a class=\"ds-tab\" href=\"#\">Ranking</a></nav>",
+      "css": ".ds-tabs{display:flex;gap:4px;padding:12px 16px 0;background:var(--ground-sunk,oklch(0.245 0.115 267))}.ds-tab{display:inline-flex;align-items:center;padding:12px 16px 11px;border-radius:10px 10px 0 0;font:700 1rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3,oklch(0.77 0.065 262));text-decoration:none;background:oklch(1 0 0 / .04);transition:background-color 160ms,color 160ms}.ds-tab:hover{color:var(--ink,oklch(0.975 0.01 260));background:oklch(1 0 0 / .08)}.ds-tab[aria-current]{background:var(--ground,oklch(0.3 0.13 266));color:var(--ink,oklch(0.975 0.01 260))}.ds-tab:focus-visible{outline:2px solid var(--paper,oklch(0.975 0.01 260));outline-offset:3px}"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "chip",
+      "refersTo": "segmented",
+      "description": "Sort and filter options in a sunk track.",
+      "html": "<div class=\"ds-seg\"><button aria-pressed=\"true\">Zuletzt</button><button aria-pressed=\"false\">Wertung</button><button aria-pressed=\"false\">A–Z</button></div>",
+      "css": ".ds-seg{display:inline-flex;padding:3px;gap:2px;border-radius:9px;background:var(--ground-sunk,oklch(0.245 0.115 267))}.ds-seg button{border:0;background:none;padding:8px 12px 7px;border-radius:7px;font:700 .9375rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3,oklch(0.77 0.065 262));cursor:pointer}.ds-seg button:hover{color:var(--ink,oklch(0.975 0.01 260))}.ds-seg button[aria-pressed=true]{background:var(--ground-raised,oklch(0.355 0.135 266));color:var(--ink,oklch(0.975 0.01 260))}.ds-seg button:focus-visible{outline:2px solid var(--paper,oklch(0.975 0.01 260));outline-offset:3px}"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Pill suggestion link in Raised Cobalt.",
+      "html": "<a class=\"ds-chip\" href=\"#\">Breaking Bad</a>",
+      "css": ".ds-chip{display:inline-block;padding:8px 14px 7px;border-radius:999px;background:var(--ground-raised,oklch(0.355 0.135 266));color:var(--ink-2,oklch(0.88 0.04 262));font:600 .9375rem/1.5 'Sofia Sans',sans-serif;text-decoration:none;transition:background-color 140ms,color 140ms}.ds-chip:hover{background:var(--line-soft,oklch(0.39 0.12 265));color:var(--ink,oklch(0.975 0.01 260))}.ds-chip:focus-visible{outline:2px solid var(--paper,oklch(0.975 0.01 260));outline-offset:3px}"
+    },
+    {
+      "name": "Box Set on a Board",
+      "kind": "custom",
+      "refersTo": "spine",
+      "description": "Signature: a show as spines on a flat board; full spines watched, outlined empty cases unwatched, white rating sticker.",
+      "html": "<div class=\"ds-shelf\"><a class=\"ds-box\" href=\"#\"><span class=\"ds-inner\"><span class=\"ds-spine\"><b>1</b><i>Sherlock</i><em>2×</em></span><span class=\"ds-spine\"><b>2</b><i>Sherlock</i></span><span class=\"ds-spine ds-empty\"><b>3</b></span></span><span class=\"ds-sticker\">9</span></a></div>",
+      "css": ".ds-shelf{display:flex;align-items:flex-end;padding:0 14px 16px;height:204px;background:linear-gradient(to bottom,transparent 0 188px,var(--board-top,oklch(0.66 0.13 255)) 188px 191px,var(--board-face,oklch(0.47 0.15 262)) 191px 204px)}.ds-box{position:relative;height:188px;display:flex;align-items:flex-end;text-decoration:none}.ds-inner{display:flex;align-items:flex-end;gap:2px;height:94%;transition:transform 260ms cubic-bezier(0.16,1,0.3,1)}.ds-box:hover .ds-inner,.ds-box:focus-visible .ds-inner{transform:translateY(-8px)}.ds-box:focus-visible{outline:2px solid var(--paper,oklch(0.975 0.01 260));outline-offset:3px}.ds-spine{width:30px;height:100%;display:flex;flex-direction:column;align-items:center;overflow:hidden;border-radius:3px 3px 1px 1px;background:hsl(200 55% 40%);color:oklch(0.99 0.005 260)}.ds-spine b{width:100%;padding:7px 0 6px;text-align:center;font:800 1rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;font-variant-numeric:tabular-nums;background:oklch(0 0 0 / .22)}.ds-spine i{flex:1;writing-mode:vertical-rl;transform:rotate(180deg);padding:9px 0;font:normal 700 .84rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;text-transform:uppercase;letter-spacing:.07em}.ds-spine em{font:normal 800 .75rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;margin-bottom:6px;padding:3px 3px 2px;border-radius:2px;background:var(--watched,oklch(0.87 0.165 96));color:var(--watched-ink,oklch(0.27 0.06 75))}.ds-spine.ds-empty{background:none;color:var(--ink-3,oklch(0.77 0.065 262));box-shadow:inset 0 0 0 1.5px oklch(1 0 0 / .32)}.ds-spine.ds-empty b{background:none}.ds-sticker{position:absolute;top:0;right:-8px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--paper,oklch(0.975 0.01 260));color:var(--paper-ink,oklch(0.28 0.13 266));font:800 .875rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;transform:rotate(-8deg)}"
+    },
+    {
+      "name": "Spec Strip",
+      "kind": "card",
+      "refersTo": "spec-strip",
+      "description": "Signature: back-of-case figures; the user’s own values turn yellow.",
+      "html": "<dl class=\"ds-specs\"><div><dt>Serien</dt><dd>13</dd></div><div><dt>Folgen</dt><dd>741</dd></div><div class=\"ds-you\"><dt>Gesehen</dt><dd>3×</dd></div></dl>",
+      "css": ".ds-specs{display:flex;margin:0;width:fit-content;border-radius:8px;overflow:hidden;background:var(--ground-sunk,oklch(0.245 0.115 267));color:var(--ink,oklch(0.975 0.01 260))}.ds-specs div{padding:11px 18px 10px;min-width:86px}.ds-specs div+div{box-shadow:-1px 0 0 var(--line-soft,oklch(0.39 0.12 265))}.ds-specs dt{font:700 .75rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3,oklch(0.77 0.065 262));margin-bottom:6px}.ds-specs dd{margin:0;font:800 1.625rem/1 'Sofia Sans XC','Sofia Sans',sans-serif;font-variant-numeric:tabular-nums}.ds-you dd{color:var(--watched,oklch(0.87 0.165 96))}"
+    },
+    {
+      "name": "Episode Tick",
+      "kind": "custom",
+      "refersTo": "tick-on",
+      "description": "Empty case that fills yellow when watched.",
+      "html": "<button class=\"ds-tick\" aria-pressed=\"false\"><svg viewBox=\"0 0 24 24\"><path d=\"m5 12.5 4.5 4.5L19 7.5\"/></svg></button><button class=\"ds-tick is-on\" aria-pressed=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"m5 12.5 4.5 4.5L19 7.5\"/></svg></button>",
+      "css": ".ds-tick{width:40px;height:40px;margin-right:8px;border:0;border-radius:8px;display:inline-grid;place-items:center;background:none;box-shadow:inset 0 0 0 1.5px oklch(1 0 0 / .32);color:transparent;cursor:pointer;transition:background-color 160ms,color 160ms,transform 200ms cubic-bezier(0.16,1,0.3,1)}.ds-tick svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}.ds-tick:hover{box-shadow:inset 0 0 0 1.5px var(--ink-2,oklch(0.88 0.04 262));color:var(--ink-3,oklch(0.77 0.065 262))}.ds-tick.is-on{background:var(--watched,oklch(0.87 0.165 96));color:var(--watched-ink,oklch(0.27 0.06 75));box-shadow:none}.ds-tick:active{transform:scale(.92)}.ds-tick:focus-visible{outline:2px solid var(--paper,oklch(0.975 0.01 260));outline-offset:3px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Box-Set Shelf",
+    "overview": "Boxset draws a lifetime of watched TV as a shelf of box sets, flat and graphic, on a Blu-ray cobalt ground. Every season is a spine coloured from its show's poster; a watched season is a filled spine with the show's name printed vertically, an unwatched one is an empty clear case: an outline with nothing printed on it. The gaps are the data. Numbers (hours, seasons, episodes) are set in an extra-condensed face and read like the spec block on the back of a case.\n\nThe surface is drenched, not decorated. Cobalt is the page, not an accent on white or black; depth comes from three tonal steps of the same blue (sunk, ground, raised) and from flat two-tone shelf boards, never from bevels, grain, sheen or ambient shadow. Colour carries meaning with discipline: yellow means watched and nothing else, white is the sticker colour for ratings, tiers and the primary action, and each show's own spine colour is the only chromatic variety on the page.\n\nDensity is moderate and phone-first: one-handed controls of 44px and up, divider-tab navigation that sits on top on desktop and hangs from the bottom edge on phone. The rejected direction is the streaming-clone poster grid on black with a red accent.",
+    "keyCharacteristics": [
+      "Blu-ray cobalt drench in three tonal steps; flat boards with a light top line and a cobalt face.",
+      "Spines coloured from each poster, clamped so white lettering stays legible.",
+      "Empty and partly watched seasons as outlined empty cases with no title.",
+      "Yellow reserved for \"watched\"; white reserved for stickers, ratings, tiers and the primary action.",
+      "Sofia Sans Extra Condensed, uppercase, for spines, figures, headings and labels; Sofia Sans for reading.",
+      "One authored motion: the box set slides off the shelf into its detail page."
+    ],
+    "rules": [
+      {
+        "name": "The Yellow Means Watched Rule",
+        "body": "Watched Yellow appears only where it states that something was watched (or how often). Never use it for emphasis, links, ratings or decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Sticker Rule",
+        "body": "Sticker White marks judgement and the primary action: ratings, tiers, the primary button, toasts and focus. Inactive and navigational chrome stays in ink on cobalt.",
+        "section": "colors"
+      },
+      {
+        "name": "The Spine Owns Its Colour Rule",
+        "body": "Per-show colour lives only on objects that belong to that show (spine, stack bar, case, blank cover). Chrome never borrows a show's colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Condensed Speaks, Sans Reads Rule",
+        "body": "Anything that names, counts or labels (headings, figures, tabs, buttons, spines) is Sofia Sans Extra Condensed, uppercase. Anything read as a sentence is Sofia Sans, sentence case.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Figures Rule",
+        "body": "Every number that can change or be compared (counts, hours, episode numbers, ratings, progress) uses tabular figures.",
+        "section": "typography"
+      },
+      {
+        "name": "The Label Belongs To A Value Rule",
+        "body": "Small tracked uppercase labels exist only to name the figure or control directly beneath them. They never sit above a heading as a decorative tag.",
+        "section": "typography"
+      },
+      {
+        "name": "The Seam Rule",
+        "body": "Group related tiles with a 3px gap of ground inside a shared rounded container, not with borders or separate floating cards.",
+        "section": "layout"
+      },
+      {
+        "name": "The No Fake Material Rule",
+        "body": "No bevels, gradients-as-lighting, grain, gloss or ambient card shadows. If it needs to look recessed, use Sunk Cobalt; if lifted, Raised Cobalt.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep the page drenched in Blu-ray Cobalt and express depth with Sunk and Raised Cobalt only.",
+      "Do show unwatched seasons as outlined empty cases (1.5px inset Case Line, no fill, no title).",
+      "Do use Watched Yellow only to say \"watched\" or \"how often watched\".",
+      "Do use Sticker White for ratings, tiers, the primary action, toasts and focus rings.",
+      "Do set names, numbers, tabs and buttons in Sofia Sans Extra Condensed uppercase with tabular figures; set sentences in Sofia Sans.",
+      "Do group tiles with a 3px seam of ground inside one rounded container.",
+      "Do derive per-show colour from the poster and clamp it so white lettering stays legible.",
+      "Do keep controls at 44px or larger on phone and keep the tab bar at the bottom there."
+    ],
+    "donts": [
+      "Don't build a streaming-clone poster grid on black with a red accent.",
+      "Don't add bevels, grain, sheen, gloss or ambient card shadows; the only shadow is the toast's.",
+      "Don't use yellow for emphasis, links or ratings.",
+      "Don't print a title on an empty or partly watched case.",
+      "Don't put small tracked uppercase tags above headings; small labels only name the value beneath them.",
+      "Don't add a second authored transition; the box set sliding into its page is the one moment."
+    ]
+  }
+}
