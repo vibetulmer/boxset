@@ -22,12 +22,22 @@ Dann <http://localhost:5173> öffnen.
 
 ## Aufs Handy bringen
 
-Eine PWA braucht HTTPS. Am einfachsten kostenlos:
+Die App läuft öffentlich auf GitHub Pages: **<https://vibetulmer.github.io/boxset/>** (Repository: <https://github.com/vibetulmer/boxset>).
 
-1. **Netlify Drop**: <https://app.netlify.com/drop> öffnen und diesen ganzen Ordner hineinziehen. Fertig, du bekommst eine Adresse.
-2. **GitHub Pages**: Ordner in ein Repository legen, unter *Settings → Pages* den Branch auswählen.
+Auf dem Handy die Adresse öffnen, dann *Zum Startbildschirm hinzufügen* (iPhone: Safari → Teilen-Menü; Android: Chrome-Menü → *App installieren*).
 
-Auf dem Handy die Adresse öffnen, dann *Zum Startbildschirm hinzufügen* (iPhone: Teilen-Menü; Android: Chrome-Menü → *App installieren*).
+Hinweis: Jede Adresse hat ihren eigenen Speicher. Was du unter `localhost` eingetragen hast, ist auf der Pages-Adresse nicht da. Zum Umziehen: lokal unter *Daten* eine Sicherung herunterladen und auf der neuen Adresse wiederherstellen.
+
+### Änderungen veröffentlichen
+
+1. In `sw.js` die `VERSION` hochzählen (sonst zeigen installierte Apps die alte Version).
+2. Committen und pushen:
+
+```bash
+git add -A && git commit -m "Beschreibung der Änderung" && git push
+```
+
+Nach etwa einer Minute ist die neue Version online. Installierte Apps holen sie beim übernächsten Öffnen.
 
 ## Deine Daten
 
