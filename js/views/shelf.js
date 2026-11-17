@@ -38,7 +38,7 @@ export function render(root) {
         <div class="empty-copy">
           <h1 class="title-xl">Dein Regal ist noch leer.</h1>
           <p class="lede">Stell die erste Serie hinein, die du je gesehen hast. Ein Tipp genügt: Staffeln und Folgen kannst du später noch genauer eintragen.</p>
-          <div class="swipe-entry"><p><strong>Schnellstart: Zappen</strong>Die beliebtesten Serien nacheinander: rechts gesehen, links nie gesehen, hoch auf die Watchlist.</p><a class="btn btn--primary" href="#/zappen">${icon('tv')}Los geht's</a></div>
+          <div class="swipe-entry"><p><strong>Schnellstart: Entdecken</strong>Die beliebtesten Serien nacheinander: rechts gesehen, links nie gesehen, hoch auf die Watchlist.</p><a class="btn btn--primary" href="#/entdecken">${icon('compass')}Los geht's</a></div>
           <a class="btn btn--outline" href="#/suche">${icon('search')}Gezielt suchen</a>
           <p class="starters-label">Oder fang mit einem Klassiker an:</p>
           <ul class="chips">${STARTERS.map((n) => `<li><a class="chip" href="#/suche?q=${encodeURIComponent(n)}">${esc(n)}</a></li>`).join('')}</ul>

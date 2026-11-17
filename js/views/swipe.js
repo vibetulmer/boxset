@@ -1,6 +1,6 @@
 // Swipe through the most popular shows: right = seen, left = never seen, up = watchlist.
 import * as store from '../store.js';
-import { raiseTo } from '../model.js';
+import { raiseTo, TIERS } from '../model.js';
 import { esc, icon, num, genreDE, toast, reducedMotion } from '../ui.js';
 
 const THRESHOLD = 90; // px of drag that commits a swipe
@@ -41,7 +41,7 @@ export async function render(root) {
   if (!list && !loadError) {
     root.innerHTML = `<section class="page page--swipe"><p class="muted">Serienliste wird geladen …</p></section>`;
     try { await loadList(); } catch (err) { loadError = err.message; }
-    if (!/^#\/(zappen|swipen)/.test(location.hash)) return;
+    if (!/^#\/(entdecken|zappen|swipen)/.test(location.hash)) return;
   }
   if (loadError) {
     root.innerHTML = `<section class="page page--swipe"><p class="notice notice--error">${esc(loadError)} ${navigator.onLine ? '' : 'Du bist offline.'}</p></section>`;
@@ -79,13 +79,14 @@ function card({ s, rank }, depth) {
 }
 
 function paint() {
+  sheetOpen = false; // a repaint replaces any open rating sheet
   const cards = deck(3);
   // Only the first paint fades in; repaints after each decision must not flash the page.
   const repaint = !!rootEl.querySelector('.page--swipe .swipe-head');
   rootEl.innerHTML = `<section class="page page--swipe${repaint ? ' no-enter' : ''}">
     <header class="swipe-head">
-      <h1 class="title-md">Zappen</h1>
-      <p class="swipe-head__hint muted">Von den größten Hits abwärts</p>
+      <h1 class="title-md">Entdecken</h1>
+      <button type="button" class="icon-btn swipe-undo" data-undo aria-label="Rückgängig" title="Rückgängig" ${history.length ? '' : 'disabled'}>${icon('undo')}</button>
     </header>
     ${cards.length ? `
     <div class="swipe-stage">
@@ -95,11 +96,7 @@ function paint() {
       <button type="button" class="swipe-btn swipe-btn--left" data-swipe="left" aria-label="Nie gesehen (Pfeil links), bisher ${session.left}">${badge('left')}${icon('x')}<span>Nie gesehen</span></button>
       <button type="button" class="swipe-btn swipe-btn--up" data-swipe="up" aria-label="Auf die Watchlist (Pfeil hoch), bisher ${session.up}">${badge('up')}${icon('bookmark')}<span>Watchlist</span></button>
       <button type="button" class="swipe-btn swipe-btn--right" data-swipe="right" aria-label="Gesehen, ins Regal (Pfeil rechts), bisher ${session.right}">${badge('right')}${icon('check')}<span>Gesehen</span></button>
-    </div>
-    <p class="swipe-help muted">
-      <button type="button" class="link-btn" data-undo ${history.length ? '' : 'disabled'}>Rückgängig</button>
-      <span>Rechts: gesehen · Links: nie gesehen · Hoch: Watchlist</span>
-    </p>` : `
+    </div>` : `
     <div class="swipe-done">
       <p class="lede">Du bist durch alle ${num(list.length)} Serien der Liste. Ganz schön viel Fernsehen.</p>
       <a class="btn btn--primary" href="#/regal">${icon('shelf')}Zum Regal</a>
@@ -194,6 +191,72 @@ async function commit(kind, from = { dx: 0, dy: 0 }) {
   busy = false;
   paint();
   rootEl.querySelector(`[data-swipe="${kind}"] .swipe-btn__count`)?.classList.add('is-bump');
+  if (kind === 'right') rateSheet(id, name);
+}
+
+// ---------- rate right after "seen": drag 1–10, release saves ----------
+let sheetOpen = false;
+
+function rateSheet(id, name) {
+  const host = rootEl.querySelector('.swipe-stage') || rootEl.querySelector('.page--swipe');
+  if (!host) return;
+  sheetOpen = true;
+  const sheet = document.createElement('div');
+  sheet.className = 'rate-sheet';
+  sheet.setAttribute('role', 'dialog');
+  sheet.setAttribute('aria-label', `${name} bewerten`);
+  sheet.innerHTML = `
+    <h2 class="rate-sheet__name">${esc(name)}</h2>
+    <p class="rate-sheet__ask">Wie fandest du sie?</p>
+    <output class="rate-sheet__value is-untouched" aria-live="polite">–</output>
+    <p class="rate-sheet__tier">Zieh den Regler, loslassen speichert</p>
+    <input class="rate-range is-untouched" type="range" min="1" max="10" step="1" value="7" aria-label="Wertung von 1 bis 10">
+    <div class="rate-scale" aria-hidden="true">${Array.from({ length: 10 }, (_, i) => `<span>${i + 1}</span>`).join('')}</div>
+    <button type="button" class="btn btn--quiet rate-sheet__skip" data-skip>Ohne Wertung weiter</button>`;
+  host.append(sheet);
+
+  const range = sheet.querySelector('.rate-range');
+  const value = sheet.querySelector('.rate-sheet__value');
+  const tierLine = sheet.querySelector('.rate-sheet__tier');
+  let touched = false;
+  let saveTimer;
+
+  const show = () => {
+    const n = Number(range.value);
+    touched = true;
+    range.classList.remove('is-untouched');
+    value.classList.remove('is-untouched');
+    value.textContent = n;
+    range.style.setProperty('--v', `${((n - 1) / 9) * 100}%`);
+    const t = TIERS.find((x) => n >= x.min);
+    tierLine.innerHTML = `<span class="tier-chip">${t.key}</span> ${t.label}`;
+  };
+  const close = () => {
+    clearTimeout(saveTimer);
+    sheetOpen = false;
+    sheet.classList.add('is-leaving');
+    setTimeout(() => sheet.remove(), 220);
+    rootEl.querySelector('.swipe-card[data-depth="0"]')?.focus?.();
+  };
+  const save = () => {
+    if (!touched) return;
+    store.setRating(id, Number(range.value));
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(close, 450); // let the chosen number register before the sheet leaves
+  };
+
+  range.style.setProperty('--v', `${(6 / 9) * 100}%`);
+  range.addEventListener('input', () => { clearTimeout(saveTimer); show(); });
+  range.addEventListener('change', save); // fires on release (pointer) or after a key step
+  range.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { show(); save(); }
+    if (e.key === 'Escape') close();
+  });
+  sheet.querySelector('[data-skip]').addEventListener('click', close);
+  sheet.querySelectorAll('.rate-scale span').forEach((s, i) => s.addEventListener('click', () => {
+    range.value = i + 1; show(); save();
+  }));
+  range.focus({ preventScroll: true });
 }
 
 async function undo() {
@@ -210,7 +273,7 @@ async function undo() {
 
 // Keyboard: arrows decide, Backspace undoes. Active only while this view is on screen.
 document.addEventListener('keydown', (e) => {
-  if (!document.querySelector('.page--swipe .swipe-deck') || e.target.closest?.('input, textarea, button')) return;
+  if (sheetOpen || !document.querySelector('.page--swipe .swipe-deck') || e.target.closest?.('input, textarea, button')) return;
   const map = { ArrowRight: 'right', ArrowLeft: 'left', ArrowUp: 'up' };
   if (map[e.key]) { e.preventDefault(); commit(map[e.key]); }
   else if (e.key === 'Backspace' || (e.key === 'z' && (e.ctrlKey || e.metaKey))) { e.preventDefault(); undo(); }

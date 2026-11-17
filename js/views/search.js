@@ -90,7 +90,7 @@ function paint(root = document) {
   if (!lastQuery) {
     host.innerHTML = `
       <div class="search-start">
-        <div class="swipe-entry"><p><strong>Keine Idee, was du suchst?</strong>Zapp dich durch die beliebtesten Serien und füll dein Regal in Minuten.</p><a class="btn btn--primary" href="#/zappen">${icon('tv')}Zappen</a></div>
+        <div class="swipe-entry"><p><strong>Keine Idee, was du suchst?</strong>Wisch dich durch die beliebtesten Serien und füll dein Regal in Minuten.</p><a class="btn btn--primary" href="#/entdecken">${icon('compass')}Entdecken</a></div>
         <p class="muted">Tipp den Titel ein, auf Deutsch oder im Original. Ein paar Ideen:</p>
         <ul class="chips">${SUGGESTIONS.map((n) => `<li><a class="chip" href="#/suche?q=${encodeURIComponent(n)}">${esc(n)}</a></li>`).join('')}</ul>
       </div>`;

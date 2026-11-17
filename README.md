@@ -3,7 +3,7 @@
 Boxset ist deine persönliche Serien-App als installierbare Web-App (PWA). Jede Serie steht als DVD-Box im Regal, jede Staffel ist ein Rücken. Ungesehene Staffeln bleiben leere Hüllen.
 
 - **Suchen** (Lupe oben rechts): jede Serie aus der TVmaze-Datenbank (rund 80.000), mit „Komplett gesehen“ in einem Tipp.
-- **Zappen** (eigener Tab): die ~3.000 beliebtesten Serien nacheinander, von den größten Hits abwärts. Rechts = gesehen, links = nie gesehen, hoch = Watchlist (auch per Knopf oder Pfeiltasten, mit Rückgängig).
+- **Entdecken** (eigener Tab): die ~3.000 beliebtesten Serien nacheinander, von den größten Hits abwärts. Rechts = gesehen, links = nie gesehen, hoch = Watchlist (auch per Knopf oder Pfeiltasten, mit Rückgängig).
 - **Watchlist**: Serien per Lesezeichen vormerken, mit Restzeit. Komplett gesehene Serien wandern automatisch ins Regal.
 - **Genau eintragen**: ganze Serie, einzelne Staffeln (Rücken antippen) oder einzelne Folgen.
 - **Durchläufe**: „3× komplett gesehen“ pro Serie, auch pro Staffel, in halben Schritten (1,5×, 2,5×) für Schätzungen.
