@@ -152,6 +152,16 @@ typography:
     fontSize: "2rem"
     fontWeight: 800
     lineHeight: 1
+  title-phone:
+    fontFamily: "'Sofia Sans XC', 'Sofia Sans', ui-sans-serif, system-ui, sans-serif"
+    fontSize: "clamp(1.75rem, 7.5vw, 2.5rem)"
+    fontWeight: 800
+    lineHeight: 0.92
+  rate-value-phone:
+    fontFamily: "'Sofia Sans XC', 'Sofia Sans', ui-sans-serif, system-ui, sans-serif"
+    fontSize: "3.25rem"
+    fontWeight: 800
+    lineHeight: 0.9
   tier-key-sm:
     fontFamily: "'Sofia Sans XC', 'Sofia Sans', ui-sans-serif, system-ui, sans-serif"
     fontSize: "3rem"
