@@ -8,6 +8,8 @@ const nf = new Intl.NumberFormat('de-DE');
 const nf1 = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 1 });
 export const num = (n) => nf.format(Math.round(n));
 export const num1 = (n) => nf1.format(n);
+/** Watch multiplier, e.g. "2×" or "1,5×". */
+export const times = (n) => `${nf1.format(n)}×`;
 
 export function duration(min, { long = false } = {}) {
   min = Math.round(min);
@@ -57,12 +59,14 @@ export const icon = (name, cls = '') =>
 export function spine(show, season, { tag = 'span', attrs = '', arriving = false } = {}) {
   const state = season.complete ? 'is-full' : season.watched ? 'is-partial' : 'is-empty';
   const pct = Math.round(season.progress * 100);
-  const count = season.minCount > 1 ? `<span class="spine__count">${season.minCount}×</span>` : '';
+  const count = season.minCount > 1 ? `<span class="spine__count">${times(season.minCount)}</span>` : '';
   // Empty and partly watched seasons are empty cases: no printed title, the gap is the data.
+  // A season seen "about half" (every episode at 0.5) shows its multiplier instead of x/y.
+  const half = season.watched === season.aired && season.minCount > 0 && season.minCount < 1;
   const body = season.complete
     ? `<span class="spine__title">${esc(show.name)}</span>${count}`
     : season.watched
-      ? `<span class="spine__gap"></span><span class="spine__part">${season.watched}/${season.aired}</span>`
+      ? `<span class="spine__gap"></span><span class="spine__part">${half ? times(season.minCount) : `${season.watched}/${season.aired}`}</span>`
       : '<span class="spine__gap"></span>';
   return `<${tag} class="spine ${state}${arriving ? ' is-arriving' : ''}" style="--c:${show.color};--p:${pct}%" ${attrs}>
     <span class="spine__num">${season.number}</span>

@@ -509,6 +509,75 @@ a.boxset:hover .boxset__inner, a.boxset:focus-visible .boxset__inner { transform
 .wl__time { color: var(--ink-2); font: 700 0.9375rem/1 var(--font-xc); text-transform: uppercase; letter-spacing: 0.05em; }
 .wl__progress { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; color: var(--ink-2); font: 700 0.9375rem/1 var(--font-xc); font-variant-numeric: tabular-nums; }
 
+/* ---------- swipe: a deck of face-out cases ---------- */
+.page--swipe { display: flex; flex-direction: column; align-items: center; }
+.swipe-head { width: 100%; max-width: 420px; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 18px; }
+.swipe-head .title-md { margin: 0; }
+.swipe-counts { margin: 0; display: flex; gap: 14px; color: var(--ink-3); font-size: 0.875rem; }
+.swipe-counts b { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+.swipe-stage { width: 100%; max-width: 420px; display: grid; justify-items: center; }
+.swipe-deck { position: relative; width: min(100%, 340px); height: 520px; }
+.swipe-card {
+  --strength: 0;
+  position: absolute; inset: 0 0 auto 0;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 20px 20px 22px; border-radius: 12px;
+  background: var(--ground-sunk);
+  touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab;
+  transition: transform 300ms var(--ease-out), opacity 300ms;
+}
+.swipe-card[data-depth='1'] { transform: translateY(14px) scale(0.95); opacity: 0.7; }
+.swipe-card[data-depth='2'] { transform: translateY(28px) scale(0.9); opacity: 0.4; }
+.swipe-card.is-dragging { transition: none; cursor: grabbing; }
+.cover--swipe { width: min(100%, 230px); margin-bottom: 18px; pointer-events: none; }
+.swipe-card__rank { font: 700 0.75rem/1 var(--font-xc); text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-3); margin-bottom: 8px; }
+.swipe-card__name { font: 800 2rem/0.95 var(--font-xc); text-transform: uppercase; margin: 0 0 8px; text-wrap: balance; }
+.swipe-card__meta { margin: 0 0 4px; color: var(--ink-2); font-size: 0.9375rem; }
+.swipe-card__genres { margin: 0; color: var(--ink-3); font-size: 0.875rem; }
+.stamp {
+  position: absolute; top: 34px; z-index: 2;
+  padding: 8px 14px 7px; border-radius: 6px;
+  font: 800 1.75rem/1 var(--font-xc); text-transform: uppercase; letter-spacing: 0.04em;
+  opacity: 0; pointer-events: none;
+}
+.stamp--right { left: 18px; transform: rotate(-12deg); background: var(--watched); color: var(--watched-ink); }
+.stamp--left { right: 18px; transform: rotate(12deg); background: var(--paper-ink); color: var(--paper); box-shadow: inset 0 0 0 2px var(--paper); }
+.stamp--up { left: 50%; top: 46%; translate: -50% 0; background: var(--paper); color: var(--paper-ink); }
+.swipe-card[data-dir='right'] .stamp--right,
+.swipe-card[data-dir='left'] .stamp--left,
+.swipe-card[data-dir='up'] .stamp--up { opacity: var(--strength); }
+.swipe-actions { display: flex; gap: 14px; justify-content: center; margin: 4px 0 14px; }
+.swipe-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  width: 96px; padding: 14px 6px 11px; border: 0; border-radius: 12px;
+  font: 800 0.8125rem/1 var(--font-xc); text-transform: uppercase; letter-spacing: 0.06em;
+  transition: transform 160ms var(--ease-out), background-color 160ms;
+}
+.swipe-btn .icon { width: 28px; height: 28px; stroke-width: 2.25; }
+.swipe-btn:active { transform: scale(0.94); }
+.swipe-btn--left { background: none; color: var(--ink-2); box-shadow: inset 0 0 0 1.5px var(--line); }
+.swipe-btn--left:hover { background: var(--ground-raised); color: var(--ink); }
+.swipe-btn--up { background: none; color: var(--paper); box-shadow: inset 0 0 0 1.5px var(--paper); }
+.swipe-btn--up:hover { background: oklch(1 0 0 / 0.08); }
+.swipe-btn--right { background: var(--watched); color: var(--watched-ink); }
+.swipe-btn--right:hover { background: var(--watched-hi); }
+.swipe-help { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: center; font-size: 0.875rem; margin: 0; text-align: center; }
+.swipe-help .link-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+.swipe-done { max-width: 420px; text-align: center; }
+.swipe-entry { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 18px 20px; margin: 0 0 28px; border-radius: var(--radius); background: var(--ground-sunk); max-width: 760px; }
+.swipe-entry p { margin: 0; flex: 1; min-width: 220px; color: var(--ink-2); }
+.swipe-entry strong { display: block; color: var(--ink); font: 800 1.25rem/1.1 var(--font-xc); text-transform: uppercase; margin-bottom: 3px; }
+@media (max-width: 760px) {
+  .page--swipe { margin-top: -12px; }
+  .swipe-head { margin-bottom: 12px; }
+  .swipe-deck { height: min(452px, calc(100dvh - 330px)); min-height: 380px; }
+  .swipe-card { padding: 14px 16px 16px; }
+  .cover--swipe { width: min(164px, 44vw); margin-bottom: 12px; }
+  .swipe-card__name { font-size: 1.5rem; }
+  .swipe-actions { margin-top: 0; gap: 10px; }
+  .swipe-btn { width: 84px; padding: 11px 6px 9px; }
+}
+
 /* ---------- ranking: five boards, white divider cards fading by tier ---------- */
 .tiers { list-style: none; margin: 8px 0 48px; padding: 0; }
 .tier { display: grid; grid-template-columns: 132px 1fr; align-items: stretch; --tier: var(--paper); }

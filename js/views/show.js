@@ -1,6 +1,6 @@
 import * as store from '../store.js';
 import { showStats, raiseTo, capAt, tierOf, EP, TIERS } from '../model.js';
-import { esc, icon, num, duration, years, genreDE, statusDE, dateDE, spine, toast } from '../ui.js';
+import { esc, icon, num, num1, times, duration, years, genreDE, statusDE, dateDE, spine, toast } from '../ui.js';
 
 let currentId = null;
 let open = new Set(); // expanded seasons
@@ -99,9 +99,9 @@ function paintDynamic(root, show) {
           ${st.runs === 0 && !st.started
             ? `<button type="button" class="btn btn--watch btn--lg" data-act="all">${icon('check')}Ganze Serie gesehen</button>`
             : `<div class="stepper" role="group" aria-labelledby="runs-label">
-                <button type="button" class="stepper__btn" data-act="runs-" ${st.runs === 0 ? 'disabled' : ''} aria-label="Einen Durchlauf weniger">${icon('minus')}</button>
-                <output class="stepper__value" aria-live="polite">${st.runs}×</output>
-                <button type="button" class="stepper__btn" data-act="runs+" aria-label="${st.runs === 0 ? 'Ganze Serie als gesehen eintragen' : 'Noch einmal komplett gesehen'}">${icon('plus')}</button>
+                <button type="button" class="stepper__btn" data-act="runs-" ${st.runs === 0 ? 'disabled' : ''} aria-label="Einen halben Durchlauf weniger">${icon('minus')}</button>
+                <output class="stepper__value" aria-live="polite">${times(st.runs)}</output>
+                <button type="button" class="stepper__btn" data-act="runs+" aria-label="${st.runs === 0 ? 'Ganze Serie als gesehen eintragen' : 'Einen halben Durchlauf mehr'}">${icon('plus')}</button>
               </div>
               <span class="control__hint">${runsHint(st)}</span>`}
         </div>
@@ -154,8 +154,9 @@ function paintDynamic(root, show) {
 
 function runsHint(st) {
   if (st.runs === 0) return `${num(st.watched)} von ${num(st.aired)} Folgen gesehen`;
+  if (st.runs < 1) return `Alles ungefähr ${times(st.runs)} gesehen, ${duration(st.watchedMinutes)}`;
   if (st.runs === 1) return 'Einmal komplett durch';
-  return `${st.runs} Durchläufe, ${duration(st.runMinutes * st.runs)}`;
+  return `${num1(st.runs)} Durchläufe, ${duration(st.runMinutes * st.runs)}`;
 }
 
 function seasonRow(show, s) {
@@ -171,10 +172,10 @@ function seasonRow(show, s) {
         <span class="season__progress"><span class="bar"><i></i></span>${s.watched}/${s.aired}</span>
         ${icon('chevron', 'season__chev')}
       </button>
-      <div class="stepper-slot">${s.complete ? `<div class="stepper stepper--sm" role="group" aria-label="Wie oft Staffel ${s.number} gesehen">
-        <button type="button" class="stepper__btn" data-season-runs="${s.number}" data-dir="-1" aria-label="Staffel ${s.number} einmal weniger">${icon('minus')}</button>
-        <output class="stepper__value">${s.minCount}×</output>
-        <button type="button" class="stepper__btn" data-season-runs="${s.number}" data-dir="1" aria-label="Staffel ${s.number} noch einmal gesehen">${icon('plus')}</button>
+      <div class="stepper-slot">${(s.complete || (s.aired && s.watched === s.aired)) ? `<div class="stepper stepper--sm" role="group" aria-label="Wie oft Staffel ${s.number} gesehen">
+        <button type="button" class="stepper__btn" data-season-runs="${s.number}" data-dir="-1" aria-label="Staffel ${s.number} einen halben Durchlauf weniger">${icon('minus')}</button>
+        <output class="stepper__value">${times(s.minCount)}</output>
+        <button type="button" class="stepper__btn" data-season-runs="${s.number}" data-dir="1" aria-label="Staffel ${s.number} einen halben Durchlauf mehr">${icon('plus')}</button>
       </div>` : ''}</div>
     </div>
     <ol class="episodes" id="eps-${s.number}" ${isOpen ? '' : 'hidden'}>
@@ -183,7 +184,7 @@ function seasonRow(show, s) {
           aria-label="Folge ${ep[EP.number]}${count ? ' als ungesehen markieren' : ' als gesehen eintragen'}">${icon('check')}</button>
         <span class="episode__no">${s.number}×${String(ep[EP.number]).padStart(2, '0')}</span>
         <span class="episode__name">${esc(ep[EP.name] || `Folge ${ep[EP.number]}`)}</span>
-        <span class="episode__meta">${aired ? dateDE(ep[EP.airdate]) : `erscheint ${dateDE(ep[EP.airdate]) || 'bald'}`}${runtime ? ` · ${runtime} Min.` : ''}${count > 1 ? ` · <strong>${count}×</strong>` : ''}</span>
+        <span class="episode__meta">${aired ? dateDE(ep[EP.airdate]) : `erscheint ${dateDE(ep[EP.airdate]) || 'bald'}`}${runtime ? ` · ${runtime} Min.` : ''}${count > 1 ? ` · <strong>${times(count)}</strong>` : ''}</span>
       </li>`).join('')}
     </ol>
   </li>`;
@@ -207,9 +208,9 @@ function onClick(e) {
     if (t.dataset.act === 'all' || (t.dataset.act === 'runs+' && st.runs === 0)) {
       change((c) => raiseTo(show, c, 1), allSeasons.filter((n) => !st.seasons.find((s) => s.number === n).complete));
     } else if (t.dataset.act === 'runs+') {
-      change((c) => raiseTo(show, c, st.runs + 1));
+      change((c) => raiseTo(show, c, st.runs + 0.5));
     } else if (t.dataset.act === 'runs-') {
-      change((c) => capAt(show, c, st.runs - 1));
+      change((c) => capAt(show, c, Math.max(0, st.runs - 0.5)));
     } else if (t.dataset.act === 'watchlist') {
       store.setWatchlist(id, !store.entry(id)?.watchlist);
     } else if (t.dataset.act === 'remove') {
@@ -227,7 +228,7 @@ function onClick(e) {
     } else if (t.dataset.seasonRuns) {
       const n = Number(t.dataset.seasonRuns);
       const s = st.seasons.find((x) => x.number === n);
-      const next = s.minCount + Number(t.dataset.dir);
+      const next = s.minCount + Number(t.dataset.dir) * 0.5;
       if (next >= s.minCount) change((c) => raiseTo(show, c, next, n));
       else change((c) => capAt(show, c, Math.max(0, next), n));
     } else if (t.dataset.open) {

@@ -1,6 +1,6 @@
 import * as store from '../store.js';
 import { libraryStats } from '../model.js';
-import { esc, num, num1, duration, hoursOf, genreDE, icon } from '../ui.js';
+import { esc, num, num1, times, duration, hoursOf, genreDE, icon } from '../ui.js';
 
 const CASE_MM = 14; // a standard keep case is 14 mm thick
 
@@ -38,7 +38,7 @@ export function render(root) {
         ${top.map(({ show, stats }, i) => `<li style="--i:${top.length - i}">
           <a class="stack__case" href="#/serie/${show.id}" style="--c:${show.color};--w:${Math.max(8, (stats.watchedMinutes / max) * 100)}%">
             <span class="stack__bar"><span class="stack__name">${esc(show.name)}</span></span>
-            <span class="stack__time">${duration(stats.watchedMinutes)}${stats.runs > 1 ? ` · ${stats.runs}×` : ''}</span>
+            <span class="stack__time">${duration(stats.watchedMinutes)}${stats.runs > 1 ? ` · ${times(stats.runs)}` : ''}</span>
           </a>
         </li>`).join('')}
       </ol>

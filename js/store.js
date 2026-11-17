@@ -229,6 +229,7 @@ export function exportData() {
     exportedAt: new Date().toISOString(),
     source: 'Seriendaten: TVmaze (CC BY-SA 4.0). Diese Datei enthält nur deine Einträge.',
     shows: Object.values(library.shows),
+    dismissed: Object.keys(library.dismissed || {}).map(Number),
   };
 }
 
@@ -246,11 +247,13 @@ export async function importData(data, onProgress) {
       rating: Number.isInteger(s.rating) && s.rating >= 1 && s.rating <= 10 ? s.rating : null,
       watchlist: Number.isFinite(s.watchlist) ? s.watchlist : null,
       counts: Object.fromEntries(
-        Object.entries(s.counts || {}).filter(([, n]) => Number.isInteger(n) && n > 0)
+        Object.entries(s.counts || {}).filter(([, n]) => Number.isFinite(n) && n > 0 && Number.isInteger(n * 2))
       ),
     };
   }
-  library = { version: 1, shows };
+  const dismissed = {};
+  for (const id of Array.isArray(data.dismissed) ? data.dismissed : []) if (Number.isInteger(id)) dismissed[id] = 1;
+  library = { version: 1, shows, dismissed };
   saveLibrary();
   for (const id of [...cache.keys()]) if (!shows[id]) { cache.delete(id); idbDel(id); }
   emit({ type: 'import' });
@@ -270,3 +273,18 @@ export async function wipe() {
   await idbClear();
   emit({ type: 'import' });
 }
+
+// ---------- swipe: shows the user has never seen ----------
+export const isDismissed = (id) => !!library.dismissed?.[id];
+export function dismiss(id) {
+  library.dismissed ??= {};
+  library.dismissed[id] = 1;
+  saveLibrary();
+  emit({ type: 'dismiss', id: Number(id) });
+}
+export function undismiss(id) {
+  if (library.dismissed) delete library.dismissed[id];
+  saveLibrary();
+  emit({ type: 'dismiss', id: Number(id) });
+}
+export const dismissedCount = () => Object.keys(library.dismissed || {}).length;

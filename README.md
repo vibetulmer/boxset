@@ -3,9 +3,10 @@
 Boxset ist deine persönliche Serien-App als installierbare Web-App (PWA). Jede Serie steht als DVD-Box im Regal, jede Staffel ist ein Rücken. Ungesehene Staffeln bleiben leere Hüllen.
 
 - **Suchen**: jede Serie aus der TVmaze-Datenbank (rund 80.000), mit „Komplett gesehen“ in einem Tipp.
+- **Durchswipen**: die ~3.000 beliebtesten Serien nacheinander, von den größten Hits abwärts. Rechts = gesehen, links = nie gesehen, hoch = Watchlist (auch per Knopf oder Pfeiltasten, mit Rückgängig).
 - **Watchlist**: Serien per Lesezeichen vormerken, mit Restzeit. Komplett gesehene Serien wandern automatisch ins Regal.
 - **Genau eintragen**: ganze Serie, einzelne Staffeln (Rücken antippen) oder einzelne Folgen.
-- **Durchläufe**: „3× komplett gesehen“ pro Serie, auch pro Staffel.
+- **Durchläufe**: „3× komplett gesehen“ pro Serie, auch pro Staffel, in halben Schritten (1,5×, 2,5×) für Schätzungen.
 - **Zeit**: aus den echten Folgenlängen berechnet, pro Serie und insgesamt.
 - **Wertung & Ranking**: 1–10 Punkte, daraus die Regalböden S (10), A (9), B (7–8), C (5–6), D (1–4).
 - **Offline**: Regal, Ranking und Statistik funktionieren ohne Netz. Nur die Suche braucht Internet.
@@ -48,6 +49,16 @@ Alles liegt nur im Browser auf dem jeweiligen Gerät (localStorage + IndexedDB).
 Seriendaten von [TVmaze](https://www.tvmaze.com/api), lizenziert unter [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.de). Die Namensnennung steht in der App im Fußbereich und unter *Daten*. Für private, nicht-kommerzielle Nutzung ist das unproblematisch; die Lizenz würde sogar kommerzielle Nutzung erlauben, solange TVmaze genannt wird und abgeleitete Datensätze unter derselben Lizenz stehen. API-Limit: etwa 20 Abrufe pro 10 Sekunden, die App drosselt sich selbst.
 
 Folgentitel sind meist im englischen Original.
+
+### Swipe-Liste erweitern
+
+`data/popular.json` ist eine aus TVmaze abgeleitete Liste der beliebtesten Serien (sortiert nach TVmaze-„weight“, dann Bewertung). Neu bauen oder vergrößern, z. B. auf 5.000 Serien (dauert ein paar Minuten wegen des API-Limits):
+
+```bash
+node scripts/build-popular.mjs 5000
+```
+
+Mit `--cached` wird der zuletzt geladene Gesamtindex wiederverwendet, ohne neu herunterzuladen. Die Datei steht wie die Quelle unter CC BY-SA 4.0.
 
 ## Aufbau
 

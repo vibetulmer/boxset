@@ -38,7 +38,8 @@ export function render(root) {
         <div class="empty-copy">
           <h1 class="title-xl">Dein Regal ist noch leer.</h1>
           <p class="lede">Stell die erste Serie hinein, die du je gesehen hast. Ein Tipp genügt: Staffeln und Folgen kannst du später noch genauer eintragen.</p>
-          <a class="btn btn--primary" href="#/suche">${icon('search')}Serie suchen</a>
+          <div class="swipe-entry"><p><strong>Schnellstart: durchswipen</strong>Die beliebtesten Serien nacheinander: rechts gesehen, links nie gesehen, hoch auf die Watchlist.</p><a class="btn btn--primary" href="#/swipen">${icon('shelf')}Los geht's</a></div>
+          <a class="btn btn--outline" href="#/suche">${icon('search')}Gezielt suchen</a>
           <p class="starters-label">Oder fang mit einem Klassiker an:</p>
           <ul class="chips">${STARTERS.map((n) => `<li><a class="chip" href="#/suche?q=${encodeURIComponent(n)}">${esc(n)}</a></li>`).join('')}</ul>
         </div>
@@ -65,6 +66,7 @@ export function render(root) {
       </header>
 
       <div class="shelf-tools">
+        <a class="btn btn--outline btn--sm" href="#/swipen">${icon('shelf')}Durchswipen</a>
         <div class="seg" role="group" aria-label="Sortieren">
           ${Object.entries(SORTS).map(([k, s]) => `<button type="button" class="seg__btn" data-sort="${k}" aria-pressed="${k === sort}">${s.label}</button>`).join('')}
         </div>
