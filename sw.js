@@ -1,5 +1,5 @@
 // Series Tracker service worker: app shell offline, TVmaze API network-first, posters cache-first.
-const VERSION = 'v14';
+const VERSION = 'v15';
 const SHELL = `shell-${VERSION}`;
 const API = 'api-v1';
 const IMG = 'img-v1';

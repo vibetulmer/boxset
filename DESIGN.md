@@ -37,8 +37,7 @@ colors:
   white: "oklch(1 0 0)"
   watched-line: "oklch(0.87 0.165 96 / 0.5)"
   toast-shadow: "oklch(0.15 0.1 266 / 0.7)"
-  # Brand mark only (first spine of the logo); never a UI accent.
-  brand-mark-red: "oklch(0.66 0.19 25)"
+  # Logo = app icon: TV emblem (paper screen, paper-ink SERIES + TRACKER, watched tick on a ground-sunk ring), 512-unit geometry shared by header SVG and icon PNGs.
 typography:
   display:
     fontFamily: "'Sofia Sans XC', 'Sofia Sans', ui-sans-serif, system-ui, sans-serif"
@@ -301,7 +300,7 @@ A single-hue drench (cobalt, hue 255 to 267) with two reserved signal colours an
 - **Blu-ray Cobalt** (cobalt-ground): the page itself, `html` and `body` background, and the face that the active divider tab joins.
 - **Sunk Cobalt** (cobalt-sunk): recessed surfaces: the header bar, mobile tab bar, search field, spec strip, segmented controls, steppers, progress-bar troughs, fact and data cards, the space behind tier boards.
 - **Raised Cobalt** (cobalt-raised): lifted surfaces and hover fills: chips, notices, the pressed segmented option, outline-button hover, stepper hover, skeleton lines.
-- **Board Face** and **Board Top** (board-face, board-top): the two flat bands of every shelf board (3px top line, cobalt face below, 16px total; 14px on phone). Board Top also underlines the brand mark and caps the stats stack.
+- **Board Face** and **Board Top** (board-face, board-top): the two flat bands of every shelf board (3px top line, cobalt face below, 16px total; 14px on phone). Board Top caps the stats stack.
 
 ### Secondary
 - **Watched Yellow** (watched, with watched-hi for hover and watched-ink for text on it): the "watched" signal only. Watch button, ticked episode/season, rewatch-count tags on spines, progress-bar fill, the watch-count stepper value, the "done" badge, the user's own figures in the spec strip.
@@ -337,7 +336,7 @@ A single-hue drench (cobalt, hue 255 to 267) with two reserved signal colours an
 - **Display** (800, clamp(2.25rem, 1.6rem + 3vw, 4.25rem), 0.92, uppercase, -0.01em, balanced): page titles (show name, Ranking, Statistik, Daten).
 - **Headline** (800, clamp(1.875rem, 1.2rem + 2.8vw, 3.5rem), 1, uppercase): the lifetime sentence on the shelf and the stats head, set in ink-2 with the number in ink; max 20 to 22ch.
 - **Title** (800, 1.375rem, 1.05, uppercase, 0.02em): section headings, search result names, season names (1.25rem).
-- **Figure** (800, 1.625rem, 1, tabular figures): spec-strip values, fact figures (1.75rem), stepper values (1.75rem), the brand name. Units and "ca." drop to 0.6em in ink-3.
+- **Figure** (800, 1.625rem, 1, tabular figures): spec-strip values, fact figures (1.75rem), stepper values (1.75rem). Units and "ca." drop to 0.6em in ink-3.
 - **Body** (400, 16px, 1.5): reading text. Lede at 1.0625rem in ink-2, max 60ch; summaries max 66ch.
 - **Label** (700, 1rem, uppercase, 0.06em): tabs, segmented options (0.9375rem), badges (0.875rem). Buttons use the same face at 800, 1.0625rem, 0.05em.
 - **Small label** (700, 0.75 to 0.8125rem, uppercase, 0.12em, ink-3): the name of a figure or control directly above it (spec-strip terms, control labels).

@@ -113,15 +113,14 @@ button { cursor: pointer; }
   background: var(--ground-sunk);
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; padding-bottom: 12px; }
-/* Logo: a TV screen that says SERIES, with a yellow "watched" tick; TRACKER follows. */
-.brand { align-items: flex-end; gap: 9px; }
-.brand__emblem { display: block; width: 62px; height: auto; overflow: visible; }
-.brand__antenna { fill: none; stroke: var(--paper); stroke-width: 3.5; stroke-linecap: round; }
+/* Logo (also the app icon): a TV screen reading SERIES, TRACKER beneath, yellow "watched" tick. */
+.brand__emblem { display: block; width: 84px; height: auto; }
+.brand__antenna { fill: none; stroke: var(--paper); stroke-width: 15; stroke-linecap: round; }
 .brand__screen { fill: var(--paper); }
-.brand__word { fill: var(--paper-ink); font: 800 25px var(--font-xc); letter-spacing: 0.04em; }
-.brand__badge { fill: var(--watched); stroke: var(--ground-sunk); stroke-width: 3.5; }
-.brand__tick { fill: none; stroke: var(--watched-ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
-.brand__name { font: 800 1.625rem/0.8 var(--font-xc); text-transform: uppercase; letter-spacing: 0.02em; padding-bottom: 3px; }
+.brand__word { fill: var(--paper-ink); font: 800 128px var(--font-xc); letter-spacing: 4px; }
+.brand__sub { fill: var(--paper-ink); opacity: 0.72; font: 800 52px var(--font-xc); letter-spacing: 16px; }
+.brand__badge { fill: var(--watched); stroke: var(--ground-sunk); stroke-width: 11; }
+.brand__tick { fill: none; stroke: var(--watched-ink); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; }
 
 .tabs { display: flex; gap: 4px; }
 .tab, .topbar__data {
@@ -765,6 +764,7 @@ html:active-view-transition .page { animation: none; }
   :root { --spine-h: 150px; --spine-w: 27px; --board: 14px; }
   .topbar { align-items: center; padding-bottom: 10px; gap: 12px; }
   .brand { padding-bottom: 0; }
+  .brand__emblem { width: 70px; }
   .tabs {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
     display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;

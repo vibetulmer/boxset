@@ -6,3 +6,4 @@ node_modules/
 *.log
 **/.impeccable/hook.cache.json
 data/.tvmaze-index.json
+drafts/
