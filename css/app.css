@@ -511,10 +511,23 @@ a.boxset:hover .boxset__inner, a.boxset:focus-visible .boxset__inner { transform
 
 /* ---------- swipe: a deck of face-out cases ---------- */
 .page--swipe { display: flex; flex-direction: column; align-items: center; }
+.page.no-enter { animation: none; }
 .swipe-head { width: 100%; max-width: 420px; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 18px; }
 .swipe-head .title-md { margin: 0; }
-.swipe-counts { margin: 0; display: flex; gap: 14px; color: var(--ink-3); font-size: 0.875rem; }
-.swipe-counts b { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+.swipe-head__hint { margin: 0; font-size: 0.875rem; }
+.swipe-btn { position: relative; }
+.swipe-btn__count {
+  position: absolute; top: -9px; right: -9px;
+  min-width: 26px; height: 26px; padding: 0 7px; border-radius: 999px;
+  display: grid; place-items: center;
+  font: 800 0.875rem/1 var(--font-xc); font-variant-numeric: tabular-nums;
+  background: var(--paper); color: var(--paper-ink);
+  box-shadow: 0 0 0 3px var(--ground);
+}
+.swipe-btn__count[hidden] { display: none; }
+.swipe-btn--right .swipe-btn__count { background: var(--paper-ink); color: var(--watched); }
+.swipe-btn__count.is-bump { animation: bump 320ms var(--ease-out); }
+@keyframes bump { 40% { transform: scale(1.3); } }
 .swipe-stage { width: 100%; max-width: 420px; display: grid; justify-items: center; }
 .swipe-deck { position: relative; width: min(100%, 340px); height: 520px; }
 .swipe-card {

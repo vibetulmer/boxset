@@ -8,7 +8,7 @@ import * as data from './views/data.js';
 import * as watchlist from './views/watchlist.js';
 import * as swipe from './views/swipe.js';
 
-const routes = { regal: shelf, suche: search, swipen: swipe, watchlist, serie: showView, ranking, statistik: stats, daten: data };
+const routes = { regal: shelf, suche: search, zappen: swipe, swipen: swipe, watchlist, serie: showView, ranking, statistik: stats, daten: data };
 const root = document.getElementById('view');
 let current = null;
 window.__navCount = 0;
@@ -26,11 +26,11 @@ async function route() {
   current = { view: routes[r.name], r };
   window.__navCount++;
   document.querySelectorAll('[data-tab]').forEach((a) => {
-    const active = a.dataset.tab === r.name || (r.name === 'serie' && a.dataset.tab === 'regal') || (r.name === 'swipen' && a.dataset.tab === 'suche');
+    const active = a.dataset.tab === r.name || (r.name === 'serie' && a.dataset.tab === 'regal') || (r.name === 'swipen' && a.dataset.tab === 'zappen');
     a.toggleAttribute('aria-current', active);
     if (active) a.setAttribute('aria-current', 'page');
   });
-  document.title = { regal: 'Boxset', suche: 'Suchen · Boxset', swipen: 'Durchswipen · Boxset', watchlist: 'Watchlist · Boxset', ranking: 'Ranking · Boxset', statistik: 'Statistik · Boxset', daten: 'Daten · Boxset', serie: 'Boxset' }[r.name];
+  document.title = { regal: 'Boxset', suche: 'Suchen · Boxset', zappen: 'Zappen · Boxset', swipen: 'Zappen · Boxset', watchlist: 'Watchlist · Boxset', ranking: 'Ranking · Boxset', statistik: 'Statistik · Boxset', daten: 'Daten · Boxset', serie: 'Boxset' }[r.name];
   const prevName = window.__prevRoute;
   window.__prevRoute = r.name;
   const boxMove = (prevName === 'regal' && r.name === 'serie') || (prevName === 'serie' && r.name === 'regal');

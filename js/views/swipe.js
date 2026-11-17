@@ -41,7 +41,7 @@ export async function render(root) {
   if (!list && !loadError) {
     root.innerHTML = `<section class="page page--swipe"><p class="muted">Serienliste wird geladen …</p></section>`;
     try { await loadList(); } catch (err) { loadError = err.message; }
-    if (!location.hash.startsWith('#/swipen')) return;
+    if (!/^#\/(zappen|swipen)/.test(location.hash)) return;
   }
   if (loadError) {
     root.innerHTML = `<section class="page page--swipe"><p class="notice notice--error">${esc(loadError)} ${navigator.onLine ? '' : 'Du bist offline.'}</p></section>`;
@@ -50,15 +50,17 @@ export async function render(root) {
   paint();
 }
 
-// Store events (writes from earlier swipes) only refresh the counters, never the deck mid-drag.
+// Store events (writes from earlier swipes) only refresh the badges, never the deck mid-drag.
 export function update() {
-  const c = rootEl?.querySelector('[data-counts]');
-  if (c) c.innerHTML = counts();
+  for (const kind of ['left', 'up', 'right']) {
+    const b = rootEl?.querySelector(`[data-swipe="${kind}"] .swipe-btn__count`);
+    if (b) { b.textContent = num(session[kind]); b.hidden = !session[kind]; }
+  }
 }
 
-function counts() {
-  return `<span><b>${num(session.right)}</b> gesehen</span><span><b>${num(session.up)}</b> Watchlist</span><span><b>${num(session.left)}</b> nie gesehen</span>`;
-}
+/** Small count circle on each decision button: how many went that way this round. */
+const badge = (kind) =>
+  `<span class="swipe-btn__count" aria-hidden="true"${session[kind] ? '' : ' hidden'}>${num(session[kind])}</span>`;
 
 function card({ s, rank }, depth) {
   const [id, name, image, from, to, running, network, genres] = s;
@@ -78,19 +80,21 @@ function card({ s, rank }, depth) {
 
 function paint() {
   const cards = deck(3);
-  rootEl.innerHTML = `<section class="page page--swipe">
+  // Only the first paint fades in; repaints after each decision must not flash the page.
+  const repaint = !!rootEl.querySelector('.page--swipe .swipe-head');
+  rootEl.innerHTML = `<section class="page page--swipe${repaint ? ' no-enter' : ''}">
     <header class="swipe-head">
-      <h1 class="title-md">Durchswipen</h1>
-      <p class="swipe-counts" data-counts aria-live="polite">${counts()}</p>
+      <h1 class="title-md">Zappen</h1>
+      <p class="swipe-head__hint muted">Von den größten Hits abwärts</p>
     </header>
     ${cards.length ? `
     <div class="swipe-stage">
       <div class="swipe-deck">${cards.map((c, i) => card(c, i)).reverse().join('')}</div>
     </div>
     <div class="swipe-actions" role="group" aria-label="Entscheidung">
-      <button type="button" class="swipe-btn swipe-btn--left" data-swipe="left" aria-label="Nie gesehen (Pfeil links)">${icon('x')}<span>Nie gesehen</span></button>
-      <button type="button" class="swipe-btn swipe-btn--up" data-swipe="up" aria-label="Auf die Watchlist (Pfeil hoch)">${icon('bookmark')}<span>Watchlist</span></button>
-      <button type="button" class="swipe-btn swipe-btn--right" data-swipe="right" aria-label="Gesehen, ins Regal (Pfeil rechts)">${icon('check')}<span>Gesehen</span></button>
+      <button type="button" class="swipe-btn swipe-btn--left" data-swipe="left" aria-label="Nie gesehen (Pfeil links), bisher ${session.left}">${badge('left')}${icon('x')}<span>Nie gesehen</span></button>
+      <button type="button" class="swipe-btn swipe-btn--up" data-swipe="up" aria-label="Auf die Watchlist (Pfeil hoch), bisher ${session.up}">${badge('up')}${icon('bookmark')}<span>Watchlist</span></button>
+      <button type="button" class="swipe-btn swipe-btn--right" data-swipe="right" aria-label="Gesehen, ins Regal (Pfeil rechts), bisher ${session.right}">${badge('right')}${icon('check')}<span>Gesehen</span></button>
     </div>
     <p class="swipe-help muted">
       <button type="button" class="link-btn" data-undo ${history.length ? '' : 'disabled'}>Rückgängig</button>
@@ -189,6 +193,7 @@ async function commit(kind, from = { dx: 0, dy: 0 }) {
   }
   busy = false;
   paint();
+  rootEl.querySelector(`[data-swipe="${kind}"] .swipe-btn__count`)?.classList.add('is-bump');
 }
 
 async function undo() {
