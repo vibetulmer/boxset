@@ -249,7 +249,10 @@ function rateSheet(id, name) {
 
   range.style.setProperty('--v', `${(6 / 9) * 100}%`);
   range.addEventListener('input', () => { clearTimeout(saveTimer); show(); });
-  range.addEventListener('change', save); // fires on release (pointer) or after a key step
+  // Releasing the slider always saves, even when it ends on its start value (7) or was only
+  // tapped: the native "change" event skips those cases, so pointerup does the work.
+  range.addEventListener('pointerup', () => { show(); save(); });
+  range.addEventListener('change', () => { show(); save(); }); // keyboard steps
   range.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') { show(); save(); }
     if (e.key === 'Escape') close();
