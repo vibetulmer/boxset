@@ -49,7 +49,7 @@ export function render(root) {
     const blob = new Blob([JSON.stringify(store.exportData(), null, 1)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `boxset-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `series-tracker-${new Date().toISOString().slice(0, 10)}.json`;
     document.body.append(a);
     a.click();
     a.remove();

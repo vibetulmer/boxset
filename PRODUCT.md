@@ -42,7 +42,7 @@ Not a social tracker, no feed, no account. It is retrospective and personal: lif
 
 ## Evidence on Hand
 
-No user data yet. No brand assets beyond the in-app brand mark. Product name: Boxset (renamed from "Serienregal"; internal storage keys keep the `serienregal` prefix for data compatibility, intentionally).
+No user data yet. No brand assets beyond the in-app brand mark. Product name: Series Tracker (earlier "Boxset" and "Serienregal"; the URL path stays /boxset/; internal storage keys keep the `serienregal` prefix for data compatibility, intentionally).
 
 ## Product Principles
 

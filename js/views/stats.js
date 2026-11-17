@@ -11,7 +11,7 @@ export function render(root) {
   if (!lib.started) {
     root.innerHTML = `<section class="page page--stats">
       <h1 class="title-xl">Statistik</h1>
-      <p class="lede">Sobald du die erste Folge einträgst, rechnet Boxset hier mit: Stunden, Tage, Lieblingsgenres und deine längsten Serien.</p>
+      <p class="lede">Sobald du die erste Folge einträgst, rechnet Series Tracker hier mit: Stunden, Tage, Lieblingsgenres und deine längsten Serien.</p>
       <a class="btn btn--primary" href="#/suche">${icon('search')}Serie suchen</a>
     </section>`;
     return;

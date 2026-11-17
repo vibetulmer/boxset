@@ -30,7 +30,7 @@ async function route() {
     a.toggleAttribute('aria-current', active);
     if (active) a.setAttribute('aria-current', 'page');
   });
-  document.title = { regal: 'Boxset', suche: 'Suchen · Boxset', entdecken: 'Entdecken · Boxset', zappen: 'Entdecken · Boxset', swipen: 'Entdecken · Boxset', watchlist: 'Watchlist · Boxset', ranking: 'Ranking · Boxset', statistik: 'Statistik · Boxset', daten: 'Daten · Boxset', serie: 'Boxset' }[r.name];
+  document.title = { regal: 'Series Tracker', suche: 'Suchen · Series Tracker', entdecken: 'Entdecken · Series Tracker', zappen: 'Entdecken · Series Tracker', swipen: 'Entdecken · Series Tracker', watchlist: 'Watchlist · Series Tracker', ranking: 'Ranking · Series Tracker', statistik: 'Statistik · Series Tracker', daten: 'Daten · Series Tracker', serie: 'Series Tracker' }[r.name];
   const prevName = window.__prevRoute;
   window.__prevRoute = r.name;
   const boxMove = (prevName === 'regal' && r.name === 'serie') || (prevName === 'serie' && r.name === 'regal');
@@ -47,7 +47,7 @@ async function route() {
   }
   if (r.name === 'serie') {
     const h = root.querySelector('h1');
-    if (h) document.title = `${h.textContent} · Boxset`;
+    if (h) document.title = `${h.textContent} · Series Tracker`;
   }
   if (!sameView) {
     window.scrollTo({ top: 0 });

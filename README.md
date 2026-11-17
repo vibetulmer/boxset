@@ -1,6 +1,6 @@
-# Boxset
+# Series Tracker
 
-Boxset ist deine persönliche Serien-App als installierbare Web-App (PWA). Jede Serie steht als DVD-Box im Regal, jede Staffel ist ein Rücken. Ungesehene Staffeln bleiben leere Hüllen.
+Series Tracker ist deine persönliche Serien-App als installierbare Web-App (PWA). Jede Serie steht als DVD-Box im Regal, jede Staffel ist ein Rücken. Ungesehene Staffeln bleiben leere Hüllen.
 
 - **Suchen** (Lupe oben rechts): jede Serie aus der TVmaze-Datenbank (rund 80.000), mit „Komplett gesehen“ in einem Tipp.
 - **Entdecken** (eigener Tab): die ~3.000 beliebtesten Serien nacheinander, von den größten Hits abwärts. Rechts = gesehen, links = nie gesehen, hoch = Watchlist (auch per Knopf oder Pfeiltasten, mit Rückgängig).

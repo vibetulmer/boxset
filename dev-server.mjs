@@ -23,4 +23,4 @@ createServer(async (req, res) => {
   } catch {
     res.writeHead(404).end('Not found');
   }
-}).listen(port, () => console.log(`Boxset läuft auf http://localhost:${port}`));
+}).listen(port, () => console.log(`Series Tracker läuft auf http://localhost:${port}`));

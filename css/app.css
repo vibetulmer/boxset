@@ -113,12 +113,15 @@ button { cursor: pointer; }
   background: var(--ground-sunk);
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; padding-bottom: 12px; }
-.brand__mark { display: flex; align-items: flex-end; gap: 2px; height: 26px; padding-bottom: 5px; background: linear-gradient(var(--board-top), var(--board-top)) bottom / 100% 3px no-repeat; }
-.brand__mark i { display: block; width: 6px; border-radius: 1px; }
-.brand__mark i:nth-child(1) { height: 17px; background: oklch(0.66 0.19 25); }
-.brand__mark i:nth-child(2) { height: 20px; background: var(--watched); }
-.brand__mark i:nth-child(3) { height: 15px; box-shadow: inset 0 0 0 1.5px var(--case-line); }
-.brand__name { font: 800 1.625rem/1 var(--font-xc); text-transform: uppercase; letter-spacing: 0.02em; }
+/* Logo: a TV screen that says SERIES, with a yellow "watched" tick; TRACKER follows. */
+.brand { align-items: flex-end; gap: 9px; }
+.brand__emblem { display: block; width: 62px; height: auto; overflow: visible; }
+.brand__antenna { fill: none; stroke: var(--paper); stroke-width: 3.5; stroke-linecap: round; }
+.brand__screen { fill: var(--paper); }
+.brand__word { fill: var(--paper-ink); font: 800 25px var(--font-xc); letter-spacing: 0.04em; }
+.brand__badge { fill: var(--watched); stroke: var(--ground-sunk); stroke-width: 3.5; }
+.brand__tick { fill: none; stroke: var(--watched-ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.brand__name { font: 800 1.625rem/0.8 var(--font-xc); text-transform: uppercase; letter-spacing: 0.02em; padding-bottom: 3px; }
 
 .tabs { display: flex; gap: 4px; }
 .tab, .topbar__data {

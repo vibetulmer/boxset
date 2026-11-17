@@ -1,5 +1,5 @@
 ---
-name: Boxset
+name: Series Tracker
 description: A lifetime of watched TV as a flat, graphic box-set shelf on Blu-ray cobalt.
 colors:
   cobalt-ground: "oklch(0.3 0.13 266)"

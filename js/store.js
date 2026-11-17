@@ -235,7 +235,7 @@ export function exportData() {
 
 export async function importData(data, onProgress) {
   if (!data || data.app !== 'serienregal' || !Array.isArray(data.shows)) {
-    throw new Error('Das ist keine Boxset-Sicherung.');
+    throw new Error('Das ist keine Series-Tracker-Sicherung.');
   }
   const shows = {};
   for (const s of data.shows) {

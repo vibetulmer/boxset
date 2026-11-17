@@ -1,5 +1,5 @@
-// Boxset service worker: app shell offline, TVmaze API network-first, posters cache-first.
-const VERSION = 'v13';
+// Series Tracker service worker: app shell offline, TVmaze API network-first, posters cache-first.
+const VERSION = 'v14';
 const SHELL = `shell-${VERSION}`;
 const API = 'api-v1';
 const IMG = 'img-v1';
@@ -9,7 +9,7 @@ const SHELL_FILES = [
   'js/main.js', 'js/api.js', 'js/store.js', 'js/model.js', 'js/ui.js', 'js/color.js', 'js/actions.js',
   'js/views/shelf.js', 'js/views/search.js', 'js/views/show.js', 'js/views/ranking.js', 'js/views/stats.js', 'js/views/data.js', 'js/views/watchlist.js', 'js/views/swipe.js', 'data/popular.json',
   'fonts/sofia-sans-latin.woff2', 'fonts/sofia-sans-latin-ext.woff2', 'fonts/sofia-xc-latin.woff2', 'fonts/sofia-xc-latin-ext.woff2',
-  'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
+  'icons/icon-192.png', 'icons/favicon-32.png', 'icons/icon-512.png',
 ];
 
 self.addEventListener('install', (e) => {
