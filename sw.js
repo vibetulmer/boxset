@@ -1,5 +1,5 @@
 // Boxset service worker: app shell offline, TVmaze API network-first, posters cache-first.
-const VERSION = 'v10';
+const VERSION = 'v12';
 const SHELL = `shell-${VERSION}`;
 const API = 'api-v1';
 const IMG = 'img-v1';

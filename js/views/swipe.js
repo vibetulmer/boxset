@@ -71,10 +71,12 @@ function card({ s, rank }, depth) {
     <span class="stamp stamp--left" aria-hidden="true">Nie gesehen</span>
     <span class="stamp stamp--up" aria-hidden="true">Watchlist</span>
     <span class="cover cover--case cover--swipe">${image ? `<img src="${esc(image)}" alt="" width="210" height="295" draggable="false"${depth > 1 ? ' loading="lazy"' : ''}>` : `<span class="cover__blank">${esc(name.slice(0, 1))}</span>`}</span>
-    <span class="swipe-card__rank">#${num(rank)} der beliebtesten</span>
-    <h2 class="swipe-card__name">${esc(name)}</h2>
-    <p class="swipe-card__meta">${esc(meta)}</p>
-    ${genres.length ? `<p class="swipe-card__genres">${genres.map((g) => esc(genreDE(g))).join(' · ')}</p>` : ''}
+    <div class="swipe-card__text">
+      <span class="swipe-card__rank">#${num(rank)} der beliebtesten</span>
+      <h2 class="swipe-card__name">${esc(name)}</h2>
+      <p class="swipe-card__meta">${esc(meta)}</p>
+      ${genres.length ? `<p class="swipe-card__genres">${genres.map((g) => esc(genreDE(g))).join(' · ')}</p>` : ''}
+    </div>
   </article>`;
 }
 

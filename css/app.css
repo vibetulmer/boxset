@@ -322,11 +322,11 @@ a.boxset:hover .boxset__inner, a.boxset:focus-visible .boxset__inner { transform
 
 /* ---------- covers: plain thumbnail, or face-out in a Blu-ray case ---------- */
 .cover {
-  position: relative; display: block; flex: none;
+  position: relative; display: block; flex: none; margin: 0;
   border-radius: 4px; overflow: hidden;
   background: var(--c, var(--ground-raised));
 }
-.cover img, .cover__blank { width: 100%; aspect-ratio: 210 / 295; object-fit: cover; }
+.cover img, .cover__blank { width: 100%; height: auto; aspect-ratio: 210 / 295; object-fit: cover; }
 .cover__blank { display: grid; place-items: center; font: 800 2rem/1 var(--font-xc); color: oklch(1 0 0 / 0.7); text-transform: uppercase; background: var(--c, var(--ground-raised)); }
 .cover--sm { width: 56px; }
 .cover--case {
@@ -625,15 +625,39 @@ a.boxset:hover .boxset__inner, a.boxset:focus-visible .boxset__inner { transform
 .swipe-entry { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 18px 20px; margin: 0 0 28px; border-radius: var(--radius); background: var(--ground-sunk); max-width: 760px; }
 .swipe-entry p { margin: 0; flex: 1; min-width: 220px; color: var(--ink-2); }
 .swipe-entry strong { display: block; color: var(--ink); font: 800 1.25rem/1.1 var(--font-xc); text-transform: uppercase; margin-bottom: 3px; }
-@media (max-width: 760px) {
-  .page--swipe { margin-top: -12px; }
-  .swipe-head { margin-bottom: 12px; }
-  .swipe-deck { height: min(452px, calc(100dvh - 330px)); min-height: 380px; }
-  .swipe-card { padding: 14px 16px 16px; }
-  .cover--swipe { width: min(164px, 44vw); margin-bottom: 12px; }
-  .swipe-card__name { font-size: 1.5rem; }
-  .swipe-actions { margin-top: 0; gap: 10px; }
+@media (max-width: 760px), (max-height: 500px) {
+  /* The deck takes exactly the height left between top bar, buttons and tab bar,
+     and the cover shrinks with it, so the buttons never overlap the card. */
+  .page--swipe {
+    --deck-h: clamp(300px, calc(100dvh - 300px - env(safe-area-inset-top) - env(safe-area-inset-bottom)), 560px);
+    margin-top: -12px;
+  }
+  .swipe-head { margin-bottom: 10px; }
+  .swipe-deck { height: var(--deck-h); }
+  .swipe-card { padding: 14px 16px 16px; height: 100%; justify-content: center; }
+  .cover--swipe { width: clamp(92px, calc((var(--deck-h) - 185px) / 1.4), min(210px, 52vw)); margin-bottom: 10px; }
+  .swipe-card__name { font-size: 1.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .swipe-actions { margin: 6px 0 0; gap: 10px; }
   .swipe-btn { width: 84px; padding: 11px 6px 9px; }
+  .rate-sheet { padding: 18px 18px; }
+  .rate-sheet__value { font-size: 3.25rem; }
+  .rate-sheet__ask { margin-bottom: 10px; }
+  .rate-sheet__tier { margin: 4px 0 12px; }
+  .rate-sheet__skip { margin-top: 12px; }
+}
+@media (max-height: 720px) {
+  .swipe-card__genres { display: none; }
+}
+/* Phone held sideways: card turns into a row so it fits the short screen. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .page--swipe { --deck-h: 168px; }
+  .swipe-head { margin-bottom: 6px; }
+  .swipe-deck { width: min(100%, 520px); }
+  .swipe-card { flex-direction: row; align-items: center; gap: 18px; text-align: left; padding: 10px 18px 10px 10px; }
+  .swipe-card__text { align-items: flex-start; }
+  .cover--swipe { width: 100px; margin: 0; flex: none; }
+  .swipe-card__rank { margin-bottom: 4px; }
+  .swipe-card[data-depth='1'], .swipe-card[data-depth='2'] { transform: translateY(8px) scale(0.97); }
 }
 
 /* ---------- ranking: five boards, white divider cards fading by tier ---------- */
@@ -734,7 +758,7 @@ a.boxset:hover .boxset__inner, a.boxset:focus-visible .boxset__inner { transform
 html:active-view-transition .page { animation: none; }
 
 /* ---------- phone ---------- */
-@media (max-width: 760px) {
+@media (max-width: 760px), (max-height: 500px) {
   :root { --spine-h: 150px; --spine-w: 27px; --board: 14px; }
   .topbar { align-items: center; padding-bottom: 10px; gap: 12px; }
   .brand { padding-bottom: 0; }
@@ -769,8 +793,17 @@ html:active-view-transition .page { animation: none; }
   .spine__part { font-size: 0.5625rem; }
   .shelf--large { --spine-h: 190px; --spine-w: 36px; }
 
-  .show-head { grid-template-columns: 1fr; }
-  .show-head .cover--lg { width: 148px; }
+  /* Detail: small face-out cover next to the title, the summary runs full width below. */
+  .show-head { grid-template-columns: 104px 1fr; gap: 6px 16px; align-items: end; margin-bottom: 26px; }
+  .show-intro { display: contents; }
+  .show-head .cover--lg { width: 104px; grid-column: 1; grid-row: 1 / span 2; align-self: start; padding: 11px 4px 4px; }
+  .show-head .cover--lg::before { top: 4px; height: 3px; }
+  .show-head .title-xl { grid-column: 2; grid-row: 1; align-self: end; font-size: clamp(1.75rem, 7.5vw, 2.5rem); margin: 0; }
+  .show-head .show-meta { grid-column: 2; grid-row: 2; align-self: start; margin: 0; font-size: 0.875rem; }
+  .show-head .summary, .show-head .link-btn, .show-head .source-link { grid-column: 1 / -1; }
+  .show-head .summary { margin-top: 14px; }
+  .show-head .link-btn { justify-self: start; }
+  .show-head .source-link { justify-self: start; margin-top: 4px; }
   .watch__controls { flex-direction: column; gap: 26px; }
   .control, .control--rating { width: 100%; }
   .rating { width: 100%; }
@@ -790,15 +823,40 @@ html:active-view-transition .page { animation: none; }
   .result__link { flex-basis: 100%; }
   .result__action { margin-left: 72px; }
 
-  .tier { grid-template-columns: 78px 1fr; }
-  .tier__key { font-size: 3rem; }
-  .tier__label small { display: none; }
-  .tier__label { font-size: 0.75rem; }
-  .tier__divider { padding: 10px 10px 18px; }
-  .covers { grid-template-columns: repeat(auto-fill, minmax(74px, 86px)); gap: 16px 12px; }
-  .tier__board { padding: 14px 12px calc(var(--board) + 14px); }
+  /* Ranking: the divider card becomes a header strip, so covers get the full width. */
+  .tier { grid-template-columns: 1fr; }
+  .tier + .tier { margin-top: 14px; }
+  .tier__divider { flex-direction: row; align-items: center; gap: 12px; padding: 8px 14px; border-radius: 10px 10px 0 0; }
+  .tier__key { font-size: 2.25rem; line-height: 1; }
+  .tier__label { font-size: 0.9375rem; display: flex; align-items: baseline; gap: 8px; }
+  .tier__label small { display: inline; margin: 0; }
+  .covers { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 16px 12px; }
+  .tier__board { min-height: 0; padding: 16px 12px calc(var(--board) + 14px); }
 
   .genres li { grid-template-columns: 7.5em 1fr 4.5em; gap: 10px; }
+}
+
+/* Phone held sideways: slim icon-only tab bar to leave room for content. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .tab span { display: none; }
+  .tab { padding: 10px 4px 9px; }
+  main { padding-top: 16px; padding-bottom: 76px; }
+  .toasts { bottom: calc(60px + env(safe-area-inset-bottom)); }
+}
+
+/* ---------- installed app (PWA) on touch screens ---------- */
+html { overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
+.tab, .topbar__data, .btn, .swipe-btn, .icon-btn, .tick, .stepper__btn, .rating__seg, .seg__btn, .spine, .brand, .swipe-card {
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+}
+.topbar { padding-left: max(var(--gutter), env(safe-area-inset-left)); padding-right: max(var(--gutter), env(safe-area-inset-right)); }
+main { padding-left: max(var(--gutter), env(safe-area-inset-left)); padding-right: max(var(--gutter), env(safe-area-inset-right)); }
+/* Touch screens have no hover: lifted boxes and covers must not stay stuck after a tap. */
+@media (hover: none) {
+  a.boxset:hover .boxset__inner, .cover-link:hover .cover, .shelf--large .spine:hover, .stack__case:hover .stack__bar { transform: none; }
+  .stack__case:hover .stack__bar { filter: none; }
+  a.boxset:active .boxset__inner { transform: translateY(-6px); }
+  .cover-link:active .cover { transform: translateY(-4px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
