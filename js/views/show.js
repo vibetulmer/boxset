@@ -48,7 +48,7 @@ function paintAll(root, show) {
     <article class="page page--show" style="--c:${show.color}">
       <a class="back" href="#/regal" data-back>${icon('back')}Zurück</a>
       <header class="show-head">
-        <figure class="cover cover--lg cover--case">${show.image ? `<img src="${esc(show.image)}" alt="Poster von ${esc(show.name)}" width="210" height="295">` : `<span class="cover__blank">${esc(show.name.slice(0, 1))}</span>`}</figure>
+        <figure class="cover cover--lg cover--case">${show.image ? `<img src="${esc(show.image)}" crossorigin="anonymous" alt="Poster von ${esc(show.name)}" width="210" height="295">` : `<span class="cover__blank">${esc(show.name.slice(0, 1))}</span>`}</figure>
         <div class="show-intro">
           <h1 class="title-xl">${esc(show.name)}</h1>
           <p class="show-meta">${meta.map(esc).join('<span aria-hidden="true"> · </span>')}</p>

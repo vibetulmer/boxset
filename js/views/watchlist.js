@@ -25,7 +25,7 @@ export function render(root) {
     <ol class="watchlist">
       ${items.map(({ show, stats }) => `<li class="wl">
         <a class="wl__link" href="#/serie/${show.id}">
-          <span class="cover cover--wl cover--case" style="--c:${show.color}">${show.image ? `<img src="${esc(show.image)}" alt="" loading="lazy" width="80" height="112">` : `<span class="cover__blank">${esc(show.name.slice(0, 1))}</span>`}</span>
+          <span class="cover cover--wl cover--case" style="--c:${show.color}">${show.image ? `<img src="${esc(show.image)}" crossorigin="anonymous" alt="" loading="lazy" width="80" height="112">` : `<span class="cover__blank">${esc(show.name.slice(0, 1))}</span>`}</span>
           <span class="wl__text">
             <span class="wl__name">${esc(show.name)}</span>
             <span class="wl__meta">${esc([years(show), show.network, `${stats.seasons.length} ${stats.seasons.length === 1 ? 'Staffel' : 'Staffeln'}`].filter(Boolean).join(' · '))}</span>

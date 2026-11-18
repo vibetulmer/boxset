@@ -265,6 +265,18 @@ a.boxset:hover .boxset__inner, a.boxset:focus-visible .boxset__inner { transform
   pointer-events: none;
 }
 
+/* New episodes since you last touched the show: neither yellow (watched) nor white (rating). */
+.boxset__new {
+  position: absolute; top: calc(100% - var(--sh, 100%) - 11px); left: -6px; z-index: 2;
+  padding: 4px 6px 3px; border-radius: 4px;
+  background: var(--ground-sunk); color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+  font: 800 0.75rem/1 var(--font-xc); letter-spacing: 0.04em; text-transform: uppercase;
+  white-space: nowrap;
+  transform: rotate(-4deg);
+  pointer-events: none;
+}
+
 .spine {
   position: relative;
   width: var(--spine-w); height: 100%;
@@ -735,6 +747,10 @@ a.boxset:hover .boxset__inner, a.boxset:focus-visible .boxset__inner { transform
 .data-card { padding: 22px 24px 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; background: var(--ground-sunk); }
 .data-card p { margin: 0 0 14px; flex: 1; }
 .progress-line { min-height: 1.5em; }
+.import-choice { margin-top: 14px; }
+.import-choice p { margin: 0 0 10px; }
+.import-choice__btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.backup-nudge { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
 .about { margin-top: 32px; max-width: 70ch; color: var(--ink-2); }
 .about a { color: var(--ink); }
 

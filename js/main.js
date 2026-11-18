@@ -7,6 +7,8 @@ import * as stats from './views/stats.js';
 import * as data from './views/data.js';
 import * as watchlist from './views/watchlist.js';
 import * as swipe from './views/swipe.js';
+import { toast, esc } from './ui.js';
+import { showStats } from './model.js';
 
 const routes = { regal: shelf, suche: search, entdecken: swipe, zappen: swipe, swipen: swipe, watchlist, serie: showView, ranking, statistik: stats, daten: data };
 const root = document.getElementById('view');
@@ -56,7 +58,24 @@ async function route() {
 }
 
 store.subscribe((detail) => {
+  if (detail?.type === 'save-error') {
+    toast('<strong>Speichern klappt gerade nicht.</strong> Deine letzten Änderungen gehen beim Neuladen verloren. Lade jetzt eine Sicherung herunter.', {
+      action: 'Zur Sicherung', onAction: () => { location.hash = '#/daten'; }, duration: 15000,
+    });
+  }
+  if (detail?.type === 'updates') {
+    const fresh = detail.ids.map((id) => store.cached(id)).filter((show) => show && showStats(show, store.entry(show.id)).fresh > 0);
+    if (fresh.length) {
+      const names = fresh.slice(0, 3).map((s) => `<strong>${esc(s.name)}</strong>`).join(', ');
+      toast(`Neue Folgen: ${names}${fresh.length > 3 ? ` und ${fresh.length - 3} weitere` : ''}.`, {
+        action: fresh.length === 1 ? 'Ansehen' : 'Zum Regal',
+        onAction: () => { location.hash = fresh.length === 1 ? `#/serie/${fresh[0].id}` : '#/regal'; },
+        duration: 9000,
+      });
+    }
+  }
   if (!current) return;
+  if (detail?.type === 'save-ok' && current.r.name !== 'daten') return;
   if (current.view.update) current.view.update(root, current.r, detail);
   else current.view.render(root, current.r);
 });
@@ -65,6 +84,13 @@ window.addEventListener('hashchange', route);
 
 await store.init();
 route();
+
+// New seasons and episodes: one small TVmaze request at start (at most every 12 h), and again
+// when the installed app comes back to the foreground after a while.
+setTimeout(() => store.checkUpdates(), 1500);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') store.checkUpdates();
+});
 
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   navigator.serviceWorker.register('sw.js').catch(() => {});

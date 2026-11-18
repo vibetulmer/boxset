@@ -60,6 +60,12 @@ node scripts/build-popular.mjs 5000
 
 Mit `--cached` wird der zuletzt geladene Gesamtindex wiederverwendet, ohne neu herunterzuladen. Die Datei steht wie die Quelle unter CC BY-SA 4.0.
 
+Automatisch: Die GitHub Action `.github/workflows/popular.yml` baut die Liste jeden Montag neu und committet sie nur, wenn sich etwas geändert hat. Von Hand starten: auf GitHub unter *Actions → Entdecken-Liste aktualisieren → Run workflow*.
+
+### Neue Folgen und Staffeln
+
+Beim Start (höchstens alle 12 Stunden) und wenn die App wieder in den Vordergrund kommt, fragt sie TVmaze einmal, welche Serien sich geändert haben (`/updates/shows`), und lädt nur die betroffenen Serien aus deinem Regal neu. Folgen, die erschienen sind, seit du eine Serie zuletzt bearbeitet hast, erscheinen als „+3 neu“ am Regal; diese Serien stehen unter *Zuletzt* vorne.
+
 ## Aufbau
 
 ```

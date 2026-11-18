@@ -1,5 +1,5 @@
 // User library (localStorage) + cached show data (IndexedDB).
-import { fetchShow } from './api.js';
+import { fetchShow, fetchUpdates } from './api.js';
 import { extractColor, hashColor } from './color.js';
 import { showStats } from './model.js';
 
@@ -50,12 +50,28 @@ function loadLibrary() {
   } catch { /* storage unavailable */ }
   return { version: 1, shows: {} };
 }
+let saveFailed = false;
+let persistAsked = false;
+export const saveProblem = () => saveFailed;
+
 function saveLibrary() {
   try {
     localStorage.setItem(LIB_KEY, JSON.stringify(library));
+    if (saveFailed) { saveFailed = false; emit({ type: 'save-ok' }); }
   } catch {
-    // keep working in memory; the data view tells the user to export
+    // Keep working in memory, but say so loudly: a reload would lose these changes.
+    if (!saveFailed) { saveFailed = true; emit({ type: 'save-error' }); }
   }
+  askPersist();
+}
+
+/** Ask once per session that the browser never evicts this origin's storage. */
+function askPersist() {
+  if (persistAsked || !Object.keys(library.shows).length) return;
+  persistAsked = true;
+  navigator.storage?.persisted?.()
+    .then((yes) => yes || navigator.storage.persist())
+    .catch(() => {});
 }
 
 function emit(detail) {
@@ -73,6 +89,30 @@ export async function init() {
   const missing = Object.keys(library.shows).map(Number).filter((id) => !cache.has(id));
   if (missing.length) loadMany(missing);
   if ([...cache.values()].some((s) => s.colorV !== COLOR_V)) recolorOld();
+  askPersist();
+  // Another tab or the installed app wrote the library: adopt its state instead of
+  // overwriting it with ours on the next save.
+  window.addEventListener('storage', (e) => {
+    if (e.key === LIB_KEY) syncFromOtherTab();
+  });
+}
+
+async function syncFromOtherTab() {
+  library = loadLibrary();
+  for (const id of [...cache.keys()]) {
+    if (!library.shows[id]) { transient.set(id, cache.get(id)); cache.delete(id); }
+  }
+  for (const id of Object.keys(library.shows).map(Number)) adopt(id);
+  emit({ type: 'import' });
+  // The other tab stored any new shows in IndexedDB already; only fetch what is still missing.
+  let missing = Object.keys(library.shows).map(Number).filter((id) => !cache.has(id));
+  if (!missing.length) return;
+  try {
+    for (const s of await idbAll()) if (library.shows[s.id] && !cache.has(s.id)) cache.set(s.id, s);
+  } catch { /* fall through to the network */ }
+  emit({ type: 'import' });
+  missing = missing.filter((id) => !cache.has(id));
+  if (missing.length) loadMany(missing);
 }
 
 export const entries = () => library.shows;
@@ -143,16 +183,20 @@ async function loadMany(ids, onProgress) {
   }
 }
 
+/** A show that just (re)joined the library moves from the browse cache into the persisted one. */
+function adopt(id) {
+  const show = transient.get(id);
+  if (!show) return;
+  transient.delete(id);
+  cache.set(id, show);
+  idbPut(show);
+}
+
 function ensureEntry(id) {
   id = Number(id);
   if (!library.shows[id]) {
     library.shows[id] = { id, addedAt: Date.now(), updatedAt: Date.now(), rating: null, counts: {} };
-    const show = transient.get(id);
-    if (show) {
-      transient.delete(id);
-      cache.set(id, show);
-      idbPut(show);
-    }
+    adopt(id);
   }
   return library.shows[id];
 }
@@ -202,8 +246,10 @@ export function snapshot(id) {
 }
 export function restore(id, snap) {
   id = Number(id);
-  if (snap) library.shows[id] = snap;
-  else removeShow(id, { silent: true });
+  if (snap) {
+    library.shows[id] = snap;
+    adopt(id); // undoing a removal: the show data must come back too, or the box stays invisible
+  } else removeShow(id, { silent: true });
   saveLibrary();
   emit({ type: 'counts', id });
 }
@@ -222,6 +268,15 @@ export function removeShow(id, { silent = false } = {}) {
 }
 
 // ---------- backup ----------
+const EXPORT_KEY = 'serienregal.lastExport';
+/** When the user last downloaded a backup (ms), or null. */
+export function lastExport() {
+  try { return Number(localStorage.getItem(EXPORT_KEY)) || null; } catch { return null; }
+}
+export function markExported() {
+  try { localStorage.setItem(EXPORT_KEY, String(Date.now())); } catch { /* ignore */ }
+}
+
 export function exportData() {
   return {
     app: 'serienregal',
@@ -233,11 +288,20 @@ export function exportData() {
   };
 }
 
-export async function importData(data, onProgress) {
+export function checkBackup(data) {
   if (!data || data.app !== 'serienregal' || !Array.isArray(data.shows)) {
     throw new Error('Das ist keine Series-Tracker-Sicherung.');
   }
-  const shows = {};
+  return data;
+}
+
+/**
+ * Restore a backup. mode 'replace' swaps the whole library; 'merge' keeps both sides and,
+ * per show, the version edited last (so phone and laptop can exchange backups both ways).
+ */
+export async function importData(data, onProgress, { mode = 'replace' } = {}) {
+  checkBackup(data);
+  let shows = {};
   for (const s of data.shows) {
     if (!Number.isInteger(s.id)) continue;
     shows[s.id] = {
@@ -251,15 +315,64 @@ export async function importData(data, onProgress) {
       ),
     };
   }
-  const dismissed = {};
+  let dismissed = {};
   for (const id of Array.isArray(data.dismissed) ? data.dismissed : []) if (Number.isInteger(id)) dismissed[id] = 1;
+  if (mode === 'merge') {
+    const merged = { ...library.shows };
+    for (const s of Object.values(shows)) {
+      const mine = merged[s.id];
+      if (!mine || (s.updatedAt || 0) > (mine.updatedAt || 0)) {
+        merged[s.id] = { ...s, addedAt: Math.min(s.addedAt, mine?.addedAt || s.addedAt) };
+      }
+    }
+    shows = merged;
+    dismissed = { ...(library.dismissed || {}), ...dismissed };
+  }
   library = { version: 1, shows, dismissed };
   saveLibrary();
   for (const id of [...cache.keys()]) if (!shows[id]) { cache.delete(id); idbDel(id); }
+  for (const id of Object.keys(shows).map(Number)) adopt(id);
   emit({ type: 'import' });
   const missing = Object.keys(shows).map(Number).filter((id) => !cache.has(id));
   await loadMany(missing, onProgress);
   return Object.keys(shows).length;
+}
+
+// ---------- new seasons and episodes ----------
+const CHECK_KEY = 'serienregal.lastUpdateCheck';
+const CHECK_EVERY_MS = 12 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
+let checking = false;
+
+/**
+ * Ask TVmaze once which shows changed since the last check and refetch only the library
+ * shows among them. Runs at most every 12 hours; emits 'updates' with the refreshed ids.
+ */
+export async function checkUpdates({ force = false } = {}) {
+  if (checking || !navigator.onLine) return;
+  let last = 0;
+  try { last = Number(localStorage.getItem(CHECK_KEY)) || 0; } catch { /* ignore */ }
+  const now = Date.now();
+  if (!force && now - last < CHECK_EVERY_MS) return;
+  const ids = Object.keys(library.shows).map(Number).filter((id) => cache.has(id));
+  if (!ids.length) return;
+  checking = true;
+  try {
+    // A wider window when the app was closed longer; past a month, everything older is due anyway.
+    const since = now - last < DAY_MS ? 'day' : now - last < 7 * DAY_MS ? 'week' : 'month';
+    const changed = await fetchUpdates(since);
+    const due = ids.filter((id) => {
+      const show = cache.get(id);
+      const fetched = show.fetchedAt || 0;
+      return (changed[id] || 0) * 1000 > fetched || now - fetched > 30 * DAY_MS;
+    });
+    const before = new Map(due.map((id) => [id, cache.get(id).episodes.length]));
+    await loadMany(due);
+    try { localStorage.setItem(CHECK_KEY, String(now)); } catch { /* ignore */ }
+    const grown = due.filter((id) => (cache.get(id)?.episodes.length || 0) > before.get(id));
+    emit({ type: 'updates', ids: due, grown });
+  } catch { /* offline or TVmaze down: try again next start */ }
+  finally { checking = false; }
 }
 
 export async function refreshAll(onProgress) {

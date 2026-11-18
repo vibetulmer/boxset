@@ -1,8 +1,25 @@
 // Series Tracker service worker: app shell offline, TVmaze API network-first, posters cache-first.
-const VERSION = 'v15';
+const VERSION = 'v16';
 const SHELL = `shell-${VERSION}`;
-const API = 'api-v1';
-const IMG = 'img-v1';
+const API = 'api-v2';
+const IMG = 'img-v2'; // v1 held opaque (no-cors) posters, which count megabytes each against the quota
+const API_MAX = 80; // shows browsed but not in the library; library shows live in IndexedDB anyway
+const IMG_MAX = 600;
+
+/** Keep a cache to its newest `max` entries (keys() lists them oldest first). */
+async function trim(name, max) {
+  const c = await caches.open(name);
+  const keys = await c.keys();
+  await Promise.all(keys.slice(0, Math.max(0, keys.length - max)).map((k) => c.delete(k)));
+}
+const trimLater = new Map();
+function scheduleTrim(e, name, max) {
+  // One trim per burst of writes, not one per poster.
+  if (trimLater.has(name)) return;
+  const p = new Promise((r) => setTimeout(r, 4000)).then(() => trim(name, max)).finally(() => trimLater.delete(name));
+  trimLater.set(name, p);
+  e.waitUntil(p);
+}
 
 const SHELL_FILES = [
   './', 'index.html', 'manifest.webmanifest', 'css/app.css',
@@ -30,10 +47,16 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(request.url);
 
   if (url.hostname === 'api.tvmaze.com') {
+    // Searches are never worth keeping offline; show pages are, within a limit.
+    if (url.pathname.startsWith('/search/')) return;
     e.respondWith(
       fetch(request)
         .then((res) => {
-          if (res.ok) { const copy = res.clone(); caches.open(API).then((c) => c.put(request, copy)); }
+          if (res.ok) {
+            const copy = res.clone();
+            e.waitUntil(caches.open(API).then((c) => c.put(request, copy)));
+            scheduleTrim(e, API, API_MAX);
+          }
           return res;
         })
         .catch(() => caches.match(request).then((hit) => hit || Response.error()))
@@ -47,7 +70,11 @@ self.addEventListener('fetch', (e) => {
         const hit = await c.match(request);
         if (hit) return hit;
         const res = await fetch(request);
-        if (res.ok || res.type === 'opaque') c.put(request, res.clone());
+        // Only real CORS responses: opaque ones are padded to megabytes in the storage quota.
+        if (res.ok && res.type !== 'opaque') {
+          e.waitUntil(c.put(request, res.clone()));
+          scheduleTrim(e, IMG, IMG_MAX);
+        }
         return res;
       })
     );

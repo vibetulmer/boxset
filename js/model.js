@@ -27,6 +27,10 @@ export function showStats(show, entry) {
   }]));
   let aired = 0, watched = 0, views = 0, runMinutes = 0, watchedMinutes = 0, runs = Infinity, remainingMinutes = 0;
   let estimated = false;
+  // "New for you": aired after you last touched this show and not seen yet. A show dropped
+  // halfway years ago stays quiet; a finished one lights up when a new season starts.
+  const touched = entry?.updatedAt ? new Date(entry.updatedAt).toISOString().slice(0, 10) : null;
+  let fresh = 0;
 
   for (const ep of show.episodes) {
     const s = bySeason.get(ep[EP.season]);
@@ -42,6 +46,7 @@ export function showStats(show, entry) {
       runs = Math.min(runs, n);
       s.minCount = Math.min(s.minCount, n);
       if (n === 0) remainingMinutes += rt;
+      if (n === 0 && touched && ep[EP.airdate] > touched) fresh++;
     }
     if (n > 0) { watched++; s.watched++; views += n; }
     watchedMinutes += n * rt; s.watchedMinutes += n * rt;
@@ -67,6 +72,7 @@ export function showStats(show, entry) {
     started: watched > 0,
     complete: aired > 0 && runs >= 1,
     newEpisodes: runs === 0 && watched > 0 ? aired - watched : 0,
+    fresh: watched > 0 ? fresh : 0,
   };
 }
 

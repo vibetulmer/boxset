@@ -3,7 +3,18 @@ import { esc, icon, toast } from '../ui.js';
 
 // Store events (imports, refreshes) must not wipe the progress line mid-run.
 export function update(root, route, detail) {
-  if (detail?.type === 'import') render(root);
+  if (['import', 'save-error', 'save-ok'].includes(detail?.type)) render(root);
+}
+
+const DAY = 24 * 60 * 60 * 1000;
+
+function backupLine(count) {
+  const last = store.lastExport();
+  if (!count) return '';
+  if (!last) return '<strong>Noch nie gesichert.</strong>';
+  const days = Math.floor((Date.now() - last) / DAY);
+  const when = days === 0 ? 'heute' : days === 1 ? 'gestern' : `vor ${days} Tagen`;
+  return `Letzte Sicherung: ${days > 30 ? `<strong>${when}</strong>` : when}.`;
 }
 
 export function render(root) {
@@ -11,17 +22,26 @@ export function render(root) {
   root.innerHTML = `<section class="page page--data">
     <h1 class="title-xl">Daten &amp; Backup</h1>
     <p class="lede">Dein Regal liegt nur in diesem Browser, auf diesem Gerät. Kein Konto, kein Server. Wenn du den Browserspeicher löschst oder das Gerät wechselst, brauchst du eine Sicherung.</p>
+    ${store.saveProblem() ? '<p class="notice notice--error"><strong>Der Browser lässt gerade nicht speichern</strong> (Speicher voll oder privater Modus). Deine Änderungen leben nur noch bis zum Neuladen. Lade jetzt eine Sicherung herunter.</p>' : ''}
 
     <div class="data-actions">
       <div class="data-card">
         <h2 class="title-md">Sichern</h2>
-        <p class="muted">Lädt eine kleine JSON-Datei mit deinen ${count} ${count === 1 ? 'Serie' : 'Serien'}, Wertungen und gesehenen Folgen herunter.</p>
+        <p class="muted">Lädt eine kleine JSON-Datei mit deinen ${count} ${count === 1 ? 'Serie' : 'Serien'}, Wertungen und gesehenen Folgen herunter. <span data-backup-line>${backupLine(count)}</span></p>
         <button type="button" class="btn btn--primary" data-export ${count ? '' : 'disabled'}>${icon('download')}Sicherung herunterladen</button>
       </div>
-      <div class="data-card">
+      <div class="data-card" data-import-card>
         <h2 class="title-md">Wiederherstellen</h2>
-        <p class="muted">Ersetzt dein aktuelles Regal durch eine Sicherung. Die Seriendaten werden danach frisch von TVmaze geladen.</p>
+        <p class="muted">Holt eine Sicherung zurück, auch von einem anderen Gerät. Du entscheidest dann, ob sie mit deinem Regal zusammengeführt wird oder es ersetzt.</p>
         <label class="btn btn--outline">${icon('upload')}Sicherung öffnen<input type="file" accept="application/json,.json" data-import class="visually-hidden"></label>
+        <div class="import-choice" hidden>
+          <p class="muted" data-choice-text></p>
+          <div class="import-choice__btns">
+            <button type="button" class="btn btn--primary btn--sm" data-mode="merge">Zusammenführen</button>
+            <button type="button" class="btn btn--outline btn--sm" data-mode="replace">Ersetzen</button>
+            <button type="button" class="btn btn--quiet btn--sm" data-mode="cancel">Abbrechen</button>
+          </div>
+        </div>
       </div>
       <div class="data-card">
         <h2 class="title-md">Aktualisieren</h2>
@@ -54,16 +74,42 @@ export function render(root) {
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    store.markExported();
+    root.querySelector('[data-backup-line]').innerHTML = backupLine(count);
+  });
+
+  const choice = root.querySelector('.import-choice');
+  let pending = null;
+  const run = async (mode) => {
+    const data = pending;
+    pending = null;
+    choice.hidden = true;
+    try {
+      const n = await store.importData(data, progress, { mode });
+      toast(mode === 'merge' ? `Zusammengeführt: ${n} Serien im Regal.` : `Sicherung geladen: ${n} Serien.`);
+    } catch (err) {
+      toast(esc(err.message));
+    }
+  };
+  choice.addEventListener('click', (e) => {
+    const mode = e.target.closest('[data-mode]')?.dataset.mode;
+    if (!mode || !pending) return;
+    if (mode === 'cancel') { pending = null; choice.hidden = true; return; }
+    if (mode === 'replace' && !confirm(`Dein aktuelles Regal mit ${count} Serien wird komplett durch die Sicherung ersetzt. Fortfahren?`)) return;
+    run(mode);
   });
 
   root.querySelector('[data-import]').addEventListener('change', async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      const data = JSON.parse(await file.text());
-      if (count && !confirm(`Dein aktuelles Regal mit ${count} Serien wird durch die Sicherung ersetzt. Fortfahren?`)) return;
-      const n = await store.importData(data, progress);
-      toast(`Sicherung geladen: ${n} Serien.`);
+      const data = store.checkBackup(JSON.parse(await file.text()));
+      pending = data;
+      if (!count) return run('replace');
+      const date = data.exportedAt ? new Date(data.exportedAt).toLocaleDateString('de-DE') : 'unbekannt';
+      choice.querySelector('[data-choice-text]').innerHTML = `Sicherung vom ${esc(date)} mit ${data.shows.length} Serien. <strong>Zusammenführen</strong> behält beide Stände und nimmt pro Serie den zuletzt geänderten. <strong>Ersetzen</strong> löscht dein jetziges Regal.`;
+      choice.hidden = false;
+      choice.querySelector('[data-mode="merge"]').focus();
     } catch (err) {
       toast(esc(err instanceof SyntaxError ? 'Die Datei ist kein gültiges JSON.' : err.message));
     } finally {

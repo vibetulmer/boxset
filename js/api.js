@@ -20,7 +20,12 @@ function schedule(task) {
 }
 
 async function get(path, tries = 3) {
-  const res = await schedule(() => fetch(BASE + path));
+  // A hung request would stall the whole serial queue, so every call gets a deadline.
+  const res = await schedule(() => fetch(BASE + path, { signal: AbortSignal.timeout(20000) }))
+    .catch((err) => {
+      if (err.name === 'TimeoutError') throw new ApiError('TVmaze antwortet nicht. Prüf deine Verbindung.', 0);
+      throw err;
+    });
   if (res.status === 429 && tries > 0) {
     await sleep(2000);
     return get(path, tries - 1);
@@ -63,6 +68,14 @@ function slim(s) {
 export async function searchShows(query) {
   const data = await get(`/search/shows?q=${encodeURIComponent(query)}`);
   return data.map((d) => slim(d.show));
+}
+
+/**
+ * Which shows changed recently: { showId: unixSeconds } for since = 'day' | 'week' | 'month'.
+ * One small request instead of refetching the whole library.
+ */
+export async function fetchUpdates(since) {
+  return get(`/updates/shows?since=${since}`);
 }
 
 /**

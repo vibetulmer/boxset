@@ -97,6 +97,12 @@ const list = [...head, ...pool.filter((s) => !headIds.has(s.id))]
     s.status === 'Running' ? 1 : 0, s.network || '', s.genres.slice(0, 3), s.rating || 0]);
 
 await mkdir(new URL('../data/', import.meta.url), { recursive: true });
+// Leave the file untouched when the list itself is the same, so a scheduled run commits nothing.
+const previous = await readFile(OUT, 'utf8').then(JSON.parse).catch(() => null);
+if (previous && JSON.stringify(previous.shows) === JSON.stringify(list)) {
+  console.log(`unchanged: ${list.length} shows, file left as it was`);
+  process.exit(0);
+}
 await writeFile(OUT, JSON.stringify({
   source: 'TVmaze (https://www.tvmaze.com), CC BY-SA 4.0',
   built: new Date().toISOString().slice(0, 10),

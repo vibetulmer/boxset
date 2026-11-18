@@ -134,7 +134,7 @@ function row(s) {
   else action = `${mark}<button type="button" class="btn btn--watch btn--sm" data-quick="${s.id}" aria-label="${esc(s.name)} komplett als gesehen eintragen">${icon('check')}Komplett gesehen</button>`;
   return `<li class="result">
     <a class="result__link" href="#/serie/${s.id}">
-      <span class="cover cover--sm">${s.image ? `<img src="${esc(s.image)}" alt="" loading="lazy" width="56" height="80">` : `<span class="cover__blank">${esc(s.name.slice(0, 1))}</span>`}</span>
+      <span class="cover cover--sm">${s.image ? `<img src="${esc(s.image)}" crossorigin="anonymous" alt="" loading="lazy" width="56" height="80">` : `<span class="cover__blank">${esc(s.name.slice(0, 1))}</span>`}</span>
       <span class="result__text">
         <span class="result__name">${esc(s.name)}</span>
         <span class="result__meta">${esc(meta)}</span>

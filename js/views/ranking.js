@@ -40,7 +40,7 @@ export function render(root) {
 function covers(list) {
   return `<ul class="covers">${list.map(({ show, entry }) => `<li>
     <a class="cover-link" href="#/serie/${show.id}" aria-label="${esc(show.name)}${entry.rating ? `, ${entry.rating} von 10` : ''}">
-      <span class="cover cover--md cover--case" style="--c:${show.color}">${show.image ? `<img src="${esc(show.image)}" alt="" loading="lazy" width="96" height="135">` : `<span class="cover__blank">${esc(show.name.slice(0, 1))}</span>`}</span>
+      <span class="cover cover--md cover--case" style="--c:${show.color}">${show.image ? `<img src="${esc(show.image)}" crossorigin="anonymous" alt="" loading="lazy" width="96" height="135">` : `<span class="cover__blank">${esc(show.name.slice(0, 1))}</span>`}</span>
       ${entry.rating ? `<span class="sticker" aria-hidden="true">${entry.rating}</span>` : ''}
       <span class="cover-link__name">${esc(show.name)}</span>
     </a>
